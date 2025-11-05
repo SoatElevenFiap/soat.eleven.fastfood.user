@@ -2,7 +2,7 @@
 
 namespace Soat.Eleven.FastFood.User.Domain.Entities;
 
-public class Usuario
+public class Usuario : IEntity
 {
     public Guid Id { get; set; }
     public string Nome { get; set; }
@@ -13,4 +13,14 @@ public class Usuario
     public DateTime CriadoEm { get; set; }
     public DateTime ModificadoEm { get; set; }
     public StatusUsuario Status { get; set; }
+    public Cliente Cliente { get; set; }
+
+    public void CriarCliente(DateTime dataDeNascimento, string cpf)
+    {
+        Cliente = new Cliente
+        {
+            DataDeNascimento = dataDeNascimento,
+            Cpf = cpf
+        };
+    }
 }

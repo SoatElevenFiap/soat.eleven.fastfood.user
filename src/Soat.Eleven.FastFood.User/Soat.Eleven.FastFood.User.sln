@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Domain", "..\Soat.Eleven.FastFood.User.Domain\Soat.Eleven.FastFood.User.Domain.csproj", "{0E059757-E880-4E59-90B5-BA2AEACD3CF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Infra", "..\Soat.Eleven.FastFood.User.Infra\Soat.Eleven.FastFood.User.Infra.csproj", "{43A97243-45FA-4367-971F-602EEF3FF076}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E059757-E880-4E59-90B5-BA2AEACD3CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E059757-E880-4E59-90B5-BA2AEACD3CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E059757-E880-4E59-90B5-BA2AEACD3CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43A97243-45FA-4367-971F-602EEF3FF076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A97243-45FA-4367-971F-602EEF3FF076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A97243-45FA-4367-971F-602EEF3FF076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A97243-45FA-4367-971F-602EEF3FF076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
