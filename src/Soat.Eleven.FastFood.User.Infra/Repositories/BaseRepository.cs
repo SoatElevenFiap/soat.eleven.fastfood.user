@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Soat.Eleven.FastFood.User.Domain.Entities;
+using Soat.Eleven.FastFood.User.Domain.Interfaces;
 using Soat.Eleven.FastFood.User.Infra.Context;
 
 namespace Soat.Eleven.FastFood.User.Infra.Repositories;
 
-public class BaseRepository<TEntity> where TEntity : class, IEntity
+public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
 {
     private readonly DataContext _context;
     private readonly DbSet<TEntity> _dbSet;
@@ -14,13 +15,13 @@ public class BaseRepository<TEntity> where TEntity : class, IEntity
         _dbSet = _context.Set<TEntity>();
     }
 
-    protected async Task AddAsync(TEntity entity)
+    public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 
-    protected async Task<TEntity?> GetByIdAsync(Guid id)
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
         IQueryable<TEntity> query = _dbSet;
 
@@ -29,7 +30,7 @@ public class BaseRepository<TEntity> where TEntity : class, IEntity
             .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
     }
 
-    protected async void Update(TEntity entity)
+    public async void Update(TEntity entity)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();

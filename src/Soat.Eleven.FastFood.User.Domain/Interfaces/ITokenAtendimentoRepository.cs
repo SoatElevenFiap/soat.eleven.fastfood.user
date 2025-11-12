@@ -2,6 +2,6 @@
 
 namespace Soat.Eleven.FastFood.User.Domain.Interfaces;
 
-public interface ITokenAtendimento : IBaseRepository<TokenAtendimento>
+public interface ITokenAtendimentoRepository : IRepository<TokenAtendimento>
 {
 }

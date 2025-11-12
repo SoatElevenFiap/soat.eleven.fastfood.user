@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Api", "Soat.Eleven.FastFood.User.Api.csproj", "{B93958CC-E795-4923-9403-0E9740C268FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Api", ".\Soat.Eleven.FastFood.User.Api\Soat.Eleven.FastFood.User.Api.csproj", "{B93958CC-E795-4923-9403-0E9740C268FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Domain", "..\Soat.Eleven.FastFood.User.Domain\Soat.Eleven.FastFood.User.Domain.csproj", "{0E059757-E880-4E59-90B5-BA2AEACD3CF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Domain", ".\Soat.Eleven.FastFood.User.Domain\Soat.Eleven.FastFood.User.Domain.csproj", "{0E059757-E880-4E59-90B5-BA2AEACD3CF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Infra", "..\Soat.Eleven.FastFood.User.Infra\Soat.Eleven.FastFood.User.Infra.csproj", "{43A97243-45FA-4367-971F-602EEF3FF076}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat.Eleven.FastFood.User.Infra", ".\Soat.Eleven.FastFood.User.Infra\Soat.Eleven.FastFood.User.Infra.csproj", "{43A97243-45FA-4367-971F-602EEF3FF076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

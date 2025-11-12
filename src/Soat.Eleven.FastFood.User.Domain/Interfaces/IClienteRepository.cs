@@ -2,6 +2,6 @@
 
 namespace Soat.Eleven.FastFood.User.Domain.Interfaces;
 
-public interface IClienteRepository : IBaseRepository<Cliente>
+public interface IClienteRepository : IRepository<Cliente>
 {
 }

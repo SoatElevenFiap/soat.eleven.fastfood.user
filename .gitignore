@@ -3,7 +3,7 @@ bin/
 obj/
 
 # User-specific files
-*.user
+# *.user
 *.suo
 *.userosscache
 *.sln.docstates
