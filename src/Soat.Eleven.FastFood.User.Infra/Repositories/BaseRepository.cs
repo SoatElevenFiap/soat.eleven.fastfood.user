@@ -7,8 +7,8 @@ namespace Soat.Eleven.FastFood.User.Infra.Repositories;
 
 public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
 {
-    private readonly DataContext _context;
-    private readonly DbSet<TEntity> _dbSet;
+    protected readonly DataContext _context;
+    protected readonly DbSet<TEntity> _dbSet;
     public BaseRepository(DataContext context)
     {
         _context = context;

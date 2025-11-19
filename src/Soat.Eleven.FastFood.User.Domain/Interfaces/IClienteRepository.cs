@@ -4,4 +4,6 @@ namespace Soat.Eleven.FastFood.User.Domain.Interfaces;
 
 public interface IClienteRepository : IRepository<Cliente>
 {
+    Task<Cliente?> GetByCPF(string cpf);
+    Task<bool> ExistByCpf(string cpf);
 }

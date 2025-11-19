@@ -1,4 +1,5 @@
-﻿using Soat.Eleven.FastFood.User.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat.Eleven.FastFood.User.Domain.Entities;
 using Soat.Eleven.FastFood.User.Domain.Interfaces;
 using Soat.Eleven.FastFood.User.Infra.Context;
 
@@ -8,5 +9,11 @@ public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
 {
     public UsuarioRepository(DataContext context) : base(context)
     {
+    }
+
+    public async Task<bool> ExistEmail(string email)
+    {
+        var user = await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
+        return user is not null;
     }
 }
