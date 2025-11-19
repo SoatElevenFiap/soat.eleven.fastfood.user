@@ -1,4 +1,4 @@
-﻿using Soat.Eleven.FastFood.User.Domain.Interfaces;
+﻿using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Infra.Repositories;
 
 namespace Microsoft.Extensions.DependencyInjection;

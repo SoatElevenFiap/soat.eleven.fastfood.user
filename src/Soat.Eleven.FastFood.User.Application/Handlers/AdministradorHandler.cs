@@ -3,7 +3,7 @@ using Soat.Eleven.FastFood.User.Application.DTOs.Outputs;
 using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 using Soat.Eleven.FastFood.User.Application.Validators;
 using Soat.Eleven.FastFood.User.Domain.Entities;
-using Soat.Eleven.FastFood.User.Domain.Interfaces;
+using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 
 namespace Soat.Eleven.FastFood.User.Application.Handlers;
 

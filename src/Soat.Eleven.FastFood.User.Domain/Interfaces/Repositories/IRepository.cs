@@ -1,4 +1,4 @@
-﻿namespace Soat.Eleven.FastFood.User.Domain.Interfaces;
+﻿namespace Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 
 public interface IRepository<T> where T : class
 {

@@ -1,5 +1,5 @@
 ﻿using Soat.Eleven.FastFood.User.Domain.Entities;
-using Soat.Eleven.FastFood.User.Domain.Interfaces;
+using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Infra.Context;
 
 namespace Soat.Eleven.FastFood.User.Infra.Repositories;
