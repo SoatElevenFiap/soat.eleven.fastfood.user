@@ -5,29 +5,32 @@ using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 using Soat.Eleven.FastFood.User.Application.Validators;
 using Soat.Eleven.FastFood.User.Domain.Entities;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
+using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
 namespace Soat.Eleven.FastFood.User.Application.Handlers;
 
 public class ClienteHandler : BaseHandler, IClienteHandler
 {
-    private readonly IValidator<CriarClienteInputDto> criarClienteValidator;
-    private readonly IValidator<AtualizaClienteInputDto> atualizaClienteValidator;
     private readonly IClienteRepository clienteRepository;
     private readonly IUsuarioRepository usuarioRepository;
+    private readonly IAuthenticationService authenticationService;
 
-    public ClienteHandler(IValidator<CriarClienteInputDto> criarClienteValidator,
-                          IValidator<AtualizaClienteInputDto> atualizaClienteValidator,
-                          IClienteRepository clienteRepository,
-                          IUsuarioRepository usuarioRepository)
+    public ClienteHandler(IClienteRepository clienteRepository,
+                          IUsuarioRepository usuarioRepository,
+                          IAuthenticationService authenticationService)
     {
-        this.criarClienteValidator = criarClienteValidator;
-        this.atualizaClienteValidator = atualizaClienteValidator;
         this.clienteRepository = clienteRepository;
         this.usuarioRepository = usuarioRepository;
+        this.authenticationService = authenticationService;
     }
 
     public async Task<Response> AtualizarCliente(AtualizaClienteInputDto input)
     {
+        var usuarioId = authenticationService.GetUsuarioId();
+
+        if (usuarioId == Guid.Empty)
+            return SendError("Usuário não autenticado");
+
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
@@ -41,9 +44,15 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         if (Validate(new AtualizaClienteValidator(), input))
             return SendError();
 
-        var cliente = (Cliente)input;
+        var cliente = await clienteRepository.GetByIdAsync(usuarioId);
 
-        await clienteRepository.AddAsync(cliente);
+        cliente.Usuario.Nome = input.Nome;
+        cliente.Usuario.Email = input.Email;
+        cliente.Usuario.Telefone = input.Telefone;
+        cliente.Cpf = input.Cpf;
+        cliente.DataDeNascimento = input.DataDeNascimento;
+
+        clienteRepository.Update(cliente);
 
         return SendSuccess((UsuarioClienteOutputDto)cliente);
     }

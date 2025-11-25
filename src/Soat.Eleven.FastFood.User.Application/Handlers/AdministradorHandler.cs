@@ -4,26 +4,27 @@ using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 using Soat.Eleven.FastFood.User.Application.Validators;
 using Soat.Eleven.FastFood.User.Domain.Entities;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
+using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
 namespace Soat.Eleven.FastFood.User.Application.Handlers;
 
 public class AdministradorHandler : BaseHandler, IAdministradorHandler
 {
     private readonly IUsuarioRepository usuarioRepository;
+    private readonly IAuthenticationService authenticationService;
 
-    public AdministradorHandler(IUsuarioRepository usuarioRepository)
+    public AdministradorHandler(IUsuarioRepository usuarioRepository,
+                                IAuthenticationService authenticationService)
     {
         this.usuarioRepository = usuarioRepository;
+        this.authenticationService = authenticationService;
     }
 
     public async Task<Response> AtualizarAdminstrador(AtualizaAdmInputDto input)
     {
-        var administrador = await usuarioRepository.GetByIdAsync(input.Id);
+        var administrador = authenticationService.GetUsuario();
         if (administrador is null)
-        {
-            AddError("Administrador não encontrado");
-            return SendError();
-        }
+            return SendError("Administrador não encontrado");
 
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 

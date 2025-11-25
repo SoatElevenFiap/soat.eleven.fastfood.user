@@ -23,6 +23,14 @@ public abstract class BaseHandler
         return response;
     }
 
+    protected Response SendError(string message)
+    {
+        var response = new Response();
+        response.Success = false;
+        response.Data = message;
+        return response;
+    }
+
     protected void AddError(string error)
     {
         validateErrors.Add(error);

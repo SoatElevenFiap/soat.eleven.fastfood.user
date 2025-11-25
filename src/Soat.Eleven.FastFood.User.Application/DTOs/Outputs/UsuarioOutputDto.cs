@@ -9,4 +9,17 @@ public class UsuarioOutputDto
     public string Telefone { get; set; }
     public string Cpf { get; set; }
     public DateTime DataDeNascimento { get; set; }
+
+    public static explicit operator UsuarioOutputDto(Domain.Entities.Usuario usuario)
+    {
+        return new UsuarioOutputDto
+        {
+            Id = usuario.Id,
+            Nome = usuario.Nome,
+            Email = usuario.Email,
+            Telefone = usuario.Telefone,
+            Cpf = usuario.Cliente?.Cpf,
+            DataDeNascimento = (DateTime)(usuario.Cliente?.DataDeNascimento)
+        };
+    }
 }
