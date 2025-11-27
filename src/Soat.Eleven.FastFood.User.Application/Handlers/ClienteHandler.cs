@@ -24,7 +24,7 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         this.authenticationService = authenticationService;
     }
 
-    public async Task<Response> AtualizarCliente(AtualizaClienteInputDto input)
+    public async Task<ResponseHandler> AtualizarCliente(AtualizaClienteInputDto input)
     {
         var usuarioId = authenticationService.GetUsuarioId();
 
@@ -57,7 +57,7 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         return SendSuccess((UsuarioClienteOutputDto)cliente);
     }
 
-    public async Task<Response> GetClienteByCPF(string cpf)
+    public async Task<ResponseHandler> GetClienteByCPF(string cpf)
     {
         var usuario = await clienteRepository.GetByCPF(cpf);
 
@@ -75,7 +75,7 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         return SendSuccess(result);
     }
 
-    public async Task<Response> InserirCliente(CriarClienteInputDto input)
+    public async Task<ResponseHandler> InserirCliente(CriarClienteInputDto input)
     {
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 

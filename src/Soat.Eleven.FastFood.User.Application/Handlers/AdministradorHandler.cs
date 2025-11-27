@@ -20,7 +20,7 @@ public class AdministradorHandler : BaseHandler, IAdministradorHandler
         this.authenticationService = authenticationService;
     }
 
-    public async Task<Response> AtualizarAdminstrador(AtualizaAdmInputDto input)
+    public async Task<ResponseHandler> AtualizarAdminstrador(AtualizaAdmInputDto input)
     {
         var administrador = authenticationService.GetUsuario();
         if (administrador is null)
@@ -44,7 +44,7 @@ public class AdministradorHandler : BaseHandler, IAdministradorHandler
         return SendSuccess((UsuarioAdmOutputDto)administrador);
     }
 
-    public async Task<Response> CriarAdministrador(CriarAdmInputDto input)
+    public async Task<ResponseHandler> CriarAdministrador(CriarAdmInputDto input)
     {
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 

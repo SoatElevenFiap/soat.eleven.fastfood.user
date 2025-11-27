@@ -6,6 +6,6 @@ namespace Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 
 public interface IAdministradorHandler
 {
-    Task<Response> CriarAdministrador(CriarAdmInputDto input);
-    Task<Response> AtualizarAdminstrador(AtualizaAdmInputDto input);
+    Task<ResponseHandler> CriarAdministrador(CriarAdmInputDto input);
+    Task<ResponseHandler> AtualizarAdminstrador(AtualizaAdmInputDto input);
 }

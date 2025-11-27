@@ -22,10 +22,6 @@ public class AtualizaClienteValidator : AbstractValidator<AtualizaClienteInputDt
             .NotEmpty().WithMessage("O telefone é obrigatório.")
             .MaximumLength(15).WithMessage("O telefone deve ter no máximo 15 caracteres.");
         
-        RuleFor(x => x.Senha)
-            .MinimumLength(6).WithMessage("A senha deve ter no mínimo 6 caracteres.")
-            .When(x => !string.IsNullOrEmpty(x.Senha));
-        
         RuleFor(x => x.ClienteId)
             .NotEmpty().WithMessage("O ID do cliente é obrigatório.");
         

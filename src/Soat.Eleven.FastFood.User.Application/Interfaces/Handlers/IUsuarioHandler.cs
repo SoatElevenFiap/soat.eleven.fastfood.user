@@ -6,6 +6,6 @@ namespace Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 
 public interface IUsuarioHandler
 {
-    Task<Response> GetUsuario();
-    Task<Response> AtualizarSenha(AtualizarSenhaInputDto input);
+    Task<ResponseHandler> GetUsuario();
+    Task<ResponseHandler> AtualizarSenha(AtualizarSenhaInputDto input);
 }

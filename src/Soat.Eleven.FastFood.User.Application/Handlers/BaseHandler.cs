@@ -15,17 +15,17 @@ public abstract class BaseHandler
         return validationResult.IsValid;
     }
 
-    protected Response SendError()
+    protected ResponseHandler SendError()
     {
-        var response = new Response();
+        var response = new ResponseHandler();
         response.Success = false;
         response.Data = validateErrors;
         return response;
     }
 
-    protected Response SendError(string message)
+    protected ResponseHandler SendError(string message)
     {
-        var response = new Response();
+        var response = new ResponseHandler();
         response.Success = false;
         response.Data = message;
         return response;
@@ -36,16 +36,16 @@ public abstract class BaseHandler
         validateErrors.Add(error);
     }
 
-    protected Response SendSuccess(object data)
+    protected ResponseHandler SendSuccess(object data)
     {
-        var response = new Response();
+        var response = new ResponseHandler();
         response.Success = true;
         response.Data = data;
         return response;
     }
 }
 
-public class Response
+public class ResponseHandler
 {
     public bool Success { get; set; }
     public object Data { get; set; }

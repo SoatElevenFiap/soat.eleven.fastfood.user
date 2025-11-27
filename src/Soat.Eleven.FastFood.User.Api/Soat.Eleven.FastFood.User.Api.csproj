@@ -17,9 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Soat.Eleven.FastFood.User.Application\Soat.Eleven.FastFood.User.Application.csproj" />
     <ProjectReference Include="..\Soat.Eleven.FastFood.User.Domain\Soat.Eleven.FastFood.User.Domain.csproj" />
     <ProjectReference Include="..\Soat.Eleven.FastFood.User.Infra\Soat.Eleven.FastFood.User.Infra.csproj" />
   </ItemGroup>

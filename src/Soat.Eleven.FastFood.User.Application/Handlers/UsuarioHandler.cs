@@ -22,7 +22,7 @@ public class UsuarioHandler : BaseHandler, IUsuarioHandler
         this.passwordService = passwordService;
     }
 
-    public async Task<Response> AtualizarSenha(AtualizarSenhaInputDto input)
+    public async Task<ResponseHandler> AtualizarSenha(AtualizarSenhaInputDto input)
     {
         if (Validate(new AtualizarSenhaValidator(), input))
             return SendError();
@@ -44,7 +44,7 @@ public class UsuarioHandler : BaseHandler, IUsuarioHandler
         return SendSuccess(true);
     }
 
-    public async Task<Response> GetUsuario()
+    public async Task<ResponseHandler> GetUsuario()
     {
         var usuario = authenticationService.GetUsuario();
 
