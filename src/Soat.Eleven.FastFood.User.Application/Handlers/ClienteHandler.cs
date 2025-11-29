@@ -34,7 +34,7 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            AddError("Usuário já existe");
+            return SendError("Usuário já existe");
 
         var existeCpf = await clienteRepository.ExistByCpf(input.Cpf);
 
@@ -80,12 +80,12 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            AddError("Usuário já existe");
+            return SendError("Usuário já existe");
 
         var existeCpf = await clienteRepository.ExistByCpf(input.Cpf);
 
         if (existeCpf)
-            AddError("Usuário já existe");
+            return SendError("Usuário já existe");
 
         if (Validate(new CriarClienteValidator(), input))
             return SendError();

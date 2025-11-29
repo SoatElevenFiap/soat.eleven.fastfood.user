@@ -12,7 +12,7 @@ public abstract class BaseHandler
         var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         validateErrors.AddRange(errors);
 
-        return validationResult.IsValid;
+        return !validationResult.IsValid || validateErrors.Count > 0;
     }
 
     protected ResponseHandler SendError()

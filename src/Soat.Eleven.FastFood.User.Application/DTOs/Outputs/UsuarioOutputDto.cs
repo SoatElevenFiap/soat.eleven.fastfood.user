@@ -18,8 +18,8 @@ public class UsuarioOutputDto
             Nome = usuario.Nome,
             Email = usuario.Email,
             Telefone = usuario.Telefone,
-            Cpf = usuario.Cliente?.Cpf,
-            DataDeNascimento = (DateTime)(usuario.Cliente?.DataDeNascimento)
+            Cpf = usuario.Cliente?.Cpf ?? string.Empty,
+            DataDeNascimento = usuario.Cliente?.DataDeNascimento ?? DateTime.MinValue
         };
     }
 }

@@ -49,7 +49,7 @@ public class AdministradorHandler : BaseHandler, IAdministradorHandler
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            AddError("Usuário já existe");
+            return SendError("Usuário já existe");
 
         if (Validate(new CriarAdmValidator(), input))
             return SendError();
