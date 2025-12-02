@@ -63,7 +63,7 @@ public class UsuarioHandlerTests
     {
         // Arrange
         var input = _fixture.Create<AtualizarSenhaInputDto>();
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns((Usuario)null);
+        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(null as Usuario);
 
         // Act
         var result = await _handler.AtualizarSenha(input);

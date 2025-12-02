@@ -74,7 +74,7 @@ public class AdministradorHandlerTests
     {
         // Arrange
         var input = _fixture.Create<AtualizaAdmInputDto>();
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns((Usuario)null);
+        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(null as Usuario);
 
         // Act
         var result = await _handler.AtualizarAdminstrador(input);

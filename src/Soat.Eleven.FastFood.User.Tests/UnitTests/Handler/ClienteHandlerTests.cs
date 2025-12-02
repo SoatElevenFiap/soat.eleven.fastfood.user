@@ -224,7 +224,7 @@ public class ClienteHandlerTests
     {
         // Arrange
         var cpf = "12345678901";
-        _clienteRepositoryMock.Setup(x => x.GetByCPF(cpf)).ReturnsAsync((Cliente)null);
+        _clienteRepositoryMock.Setup(x => x.GetByCPF(cpf)).ReturnsAsync(null as Cliente);
 
         // Act
         var result = await _handler.GetClienteByCPF(cpf);
