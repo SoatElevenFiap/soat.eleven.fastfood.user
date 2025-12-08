@@ -11,18 +11,20 @@ namespace Soat.Eleven.FastFood.User.Application.Handlers;
 public class AdministradorHandler : BaseHandler, IAdministradorHandler
 {
     private readonly IUsuarioRepository usuarioRepository;
-    private readonly IAuthenticationService authenticationService;
+    private readonly IJwtTokenService jwtTokenService;
 
     public AdministradorHandler(IUsuarioRepository usuarioRepository,
-                                IAuthenticationService authenticationService)
+                                IJwtTokenService jwtTokenService)
     {
         this.usuarioRepository = usuarioRepository;
-        this.authenticationService = authenticationService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     public async Task<ResponseHandler> AtualizarAdminstrador(AtualizaAdmInputDto input)
     {
-        var administrador = authenticationService.GetUsuario();
+        var administradorId = jwtTokenService.GetUsuarioId();
+        var administrador = await usuarioRepository.GetByIdAsync(administradorId);
+
         if (administrador is null)
             return SendError("Administrador não encontrado");
 

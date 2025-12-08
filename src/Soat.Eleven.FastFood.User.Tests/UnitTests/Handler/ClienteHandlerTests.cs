@@ -15,7 +15,7 @@ public class ClienteHandlerTests
 {
     private Mock<IClienteRepository> _clienteRepositoryMock;
     private Mock<IUsuarioRepository> _usuarioRepositoryMock;
-    private Mock<IAuthenticationService> _authenticationServiceMock;
+    private Mock<IJwtTokenService> _jwtTokenServiceMock;
     private ClienteHandler _handler;
     private Fixture _fixture;
 
@@ -24,13 +24,13 @@ public class ClienteHandlerTests
     {
         _clienteRepositoryMock = new Mock<IClienteRepository>();
         _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-        _authenticationServiceMock = new Mock<IAuthenticationService>();
+        _jwtTokenServiceMock = new Mock<IJwtTokenService>();
         _fixture = new Fixture();
 
         _handler = new ClienteHandler(
             _clienteRepositoryMock.Object,
             _usuarioRepositoryMock.Object,
-            _authenticationServiceMock.Object);
+            _jwtTokenServiceMock.Object);
     }
 
     [Test]
@@ -95,7 +95,7 @@ public class ClienteHandlerTests
     {
         // Arrange
         var input = _fixture.Create<AtualizaClienteInputDto>();
-        _authenticationServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.Empty);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.Empty);
 
         // Act
         var result = await _handler.AtualizarCliente(input);
@@ -112,7 +112,7 @@ public class ClienteHandlerTests
         var usuarioId = Guid.NewGuid();
         var input = _fixture.Create<AtualizaClienteInputDto>();
 
-        _authenticationServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(true);
 
         // Act
@@ -129,7 +129,7 @@ public class ClienteHandlerTests
         var usuarioId = Guid.NewGuid();
         var input = _fixture.Create<AtualizaClienteInputDto>();
 
-        _authenticationServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
         _clienteRepositoryMock.Setup(x => x.ExistByCpf(input.Cpf)).ReturnsAsync(true);
 
@@ -171,7 +171,7 @@ public class ClienteHandlerTests
             DataDeNascimento = DateTime.Now.AddYears(-30)
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
         _clienteRepositoryMock.Setup(x => x.ExistByCpf(input.Cpf)).ReturnsAsync(false);
         _clienteRepositoryMock.Setup(x => x.GetByIdAsync(usuarioId)).ReturnsAsync(cliente);

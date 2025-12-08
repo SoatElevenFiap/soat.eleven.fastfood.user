@@ -2,8 +2,7 @@
 
 namespace Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
-public interface IAuthenticationService
+public interface IJwtTokenService
 {
     Guid GetUsuarioId();
-    Usuario? GetUsuario();
 }

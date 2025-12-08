@@ -10,11 +10,11 @@ namespace Soat.Eleven.FastFood.User.Application.Handlers;
 public class UsuarioHandler : BaseHandler, IUsuarioHandler
 {
     private readonly IUsuarioRepository usuarioRepository;
-    private readonly IAuthenticationService authenticationService;
+    private readonly IJwtTokenService authenticationService;
     private readonly IPasswordService passwordService;
 
     public UsuarioHandler(IUsuarioRepository usuarioRepository,
-                          IAuthenticationService authenticationService,
+                          IJwtTokenService authenticationService,
                           IPasswordService passwordService)
     {
         this.usuarioRepository = usuarioRepository;
@@ -27,17 +27,18 @@ public class UsuarioHandler : BaseHandler, IUsuarioHandler
         if (Validate(new AtualizarSenhaValidator(), input))
             return SendError();
 
-        var usuario = authenticationService.GetUsuario();
+        var usuarioId = authenticationService.GetUsuarioId();
+        var usuario = await usuarioRepository.GetByIdAsync(usuarioId);
 
         if (usuario is null)
             return SendError("Usuário não autenticado.");
 
-        var currentPasswordHash = passwordService.Hash(input.CurrentPassword);
+        var currentPasswordHash = passwordService.TransformToHash(input.CurrentPassword);
 
         if (currentPasswordHash != usuario.Senha)
             return SendError("Senha atual incorreta.");
 
-        usuario.Senha = passwordService.Hash(input.NewPassword);
+        usuario.Senha = passwordService.TransformToHash(input.NewPassword);
 
         usuarioRepository.Update(usuario);
 
@@ -46,7 +47,8 @@ public class UsuarioHandler : BaseHandler, IUsuarioHandler
 
     public async Task<ResponseHandler> GetUsuario()
     {
-        var usuario = authenticationService.GetUsuario();
+        var usuarioId = authenticationService.GetUsuarioId();
+        var usuario = await usuarioRepository.GetByIdAsync(usuarioId);
 
         return SendSuccess((UsuarioOutputDto)usuario);
     }

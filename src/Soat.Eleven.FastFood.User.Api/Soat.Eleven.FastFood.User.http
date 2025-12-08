@@ -1,6 +1,0 @@
-@Soat.Eleven.FastFood.User_HostAddress = http://localhost:5157
-
-GET {{Soat.Eleven.FastFood.User_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

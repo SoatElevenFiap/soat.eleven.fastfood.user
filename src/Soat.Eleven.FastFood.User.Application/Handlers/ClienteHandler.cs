@@ -13,11 +13,11 @@ public class ClienteHandler : BaseHandler, IClienteHandler
 {
     private readonly IClienteRepository clienteRepository;
     private readonly IUsuarioRepository usuarioRepository;
-    private readonly IAuthenticationService authenticationService;
+    private readonly IJwtTokenService authenticationService;
 
     public ClienteHandler(IClienteRepository clienteRepository,
                           IUsuarioRepository usuarioRepository,
-                          IAuthenticationService authenticationService)
+                          IJwtTokenService authenticationService)
     {
         this.clienteRepository = clienteRepository;
         this.usuarioRepository = usuarioRepository;

@@ -15,7 +15,7 @@ namespace Soat.Eleven.FastFood.User.Tests.UnitTests.Handler;
 public class UsuarioHandlerTests
 {
     private Mock<IUsuarioRepository> _usuarioRepositoryMock;
-    private Mock<IAuthenticationService> _authenticationServiceMock;
+    private Mock<IJwtTokenService> _jwtTokenServiceMock;
     private Mock<IPasswordService> _passwordServiceMock;
     private UsuarioHandler _handler;
     private Fixture _fixture;
@@ -24,13 +24,13 @@ public class UsuarioHandlerTests
     public void SetUp()
     {
         _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-        _authenticationServiceMock = new Mock<IAuthenticationService>();
+        _jwtTokenServiceMock = new Mock<IJwtTokenService>();
         _passwordServiceMock = new Mock<IPasswordService>();
         _fixture = new Fixture();
 
         _handler = new UsuarioHandler(
             _usuarioRepositoryMock.Object,
-            _authenticationServiceMock.Object,
+            _jwtTokenServiceMock.Object,
             _passwordServiceMock.Object);
     }
 
@@ -48,7 +48,8 @@ public class UsuarioHandlerTests
             Status = StatusUsuario.Ativo
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(usuario);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuario.Id);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(usuario.Id)).ReturnsAsync(usuario);
 
         // Act
         var result = await _handler.GetUsuario();
@@ -63,7 +64,8 @@ public class UsuarioHandlerTests
     {
         // Arrange
         var input = _fixture.Create<AtualizarSenhaInputDto>();
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(null as Usuario);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.NewGuid);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Usuario);
 
         // Act
         var result = await _handler.AtualizarSenha(input);
@@ -91,8 +93,9 @@ public class UsuarioHandlerTests
             Senha = "hashSenhaAtual"
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(usuario);
-        _passwordServiceMock.Setup(x => x.Hash(input.CurrentPassword)).Returns("hashSenhaIncorreta");
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuario.Id);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(usuario.Id)).ReturnsAsync(usuario);
+        _passwordServiceMock.Setup(x => x.TransformToHash(input.CurrentPassword)).Returns("hashSenhaIncorreta");
 
         // Act
         var result = await _handler.AtualizarSenha(input);
@@ -120,9 +123,10 @@ public class UsuarioHandlerTests
             Senha = "hashSenhaAtual"
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(usuario);
-        _passwordServiceMock.Setup(x => x.Hash(input.CurrentPassword)).Returns("hashSenhaAtual");
-        _passwordServiceMock.Setup(x => x.Hash(input.NewPassword)).Returns("hashNovaSenha");
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuario.Id);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(usuario.Id)).ReturnsAsync(usuario);
+        _passwordServiceMock.Setup(x => x.TransformToHash(input.CurrentPassword)).Returns("hashSenhaAtual");
+        _passwordServiceMock.Setup(x => x.TransformToHash(input.NewPassword)).Returns("hashNovaSenha");
 
         // Act
         var result = await _handler.AtualizarSenha(input);

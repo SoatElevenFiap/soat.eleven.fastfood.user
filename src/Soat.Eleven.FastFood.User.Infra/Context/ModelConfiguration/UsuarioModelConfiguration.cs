@@ -44,6 +44,6 @@ public class UsuarioModelConfiguration : EntityBaseModelConfiguration<Usuario>
                .HasConversion<string>();
 
 
-        builder.HasData([usuarioAdmDefault]);
+        builder.HasData(usuarioAdmDefault);
     }
 }

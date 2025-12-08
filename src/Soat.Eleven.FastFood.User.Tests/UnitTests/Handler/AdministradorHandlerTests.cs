@@ -15,7 +15,7 @@ namespace Soat.Eleven.FastFood.User.Tests.UnitTests.Handler;
 public class AdministradorHandlerTests
 {
     private Mock<IUsuarioRepository> _usuarioRepositoryMock;
-    private Mock<IAuthenticationService> _authenticationServiceMock;
+    private Mock<IJwtTokenService> _jwtTokenServiceMock;
     private AdministradorHandler _handler;
     private Fixture _fixture;
 
@@ -23,12 +23,12 @@ public class AdministradorHandlerTests
     public void SetUp()
     {
         _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-        _authenticationServiceMock = new Mock<IAuthenticationService>();
+        _jwtTokenServiceMock = new Mock<IJwtTokenService>();
         _fixture = new Fixture();
 
         _handler = new AdministradorHandler(
             _usuarioRepositoryMock.Object,
-            _authenticationServiceMock.Object);
+            _jwtTokenServiceMock.Object);
     }
 
     [Test]
@@ -74,7 +74,8 @@ public class AdministradorHandlerTests
     {
         // Arrange
         var input = _fixture.Create<AtualizaAdmInputDto>();
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(null as Usuario);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.NewGuid);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Usuario);
 
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
@@ -97,8 +98,9 @@ public class AdministradorHandlerTests
             Perfil = PerfilUsuario.Administrador
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(administrador);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.NewGuid);
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(true);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(administrador);
 
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
@@ -128,7 +130,8 @@ public class AdministradorHandlerTests
             Perfil = PerfilUsuario.Administrador
         };
 
-        _authenticationServiceMock.Setup(x => x.GetUsuario()).Returns(administrador);
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(administrador.Id);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(administrador);
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
 
         // Act
