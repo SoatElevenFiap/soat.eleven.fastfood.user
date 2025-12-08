@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
 using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
+using Soat.Eleven.FastFood.User.Domain.Enums;
 
 namespace Soat.Eleven.FastFood.User.Api.Controllers;
 
@@ -23,6 +25,7 @@ public class ClienteController : BaseController
     }
 
     [HttpPut]
+    [Authorize(PolicyRole.Cliente)]
     public async Task<IActionResult> AtualizarCliente([FromBody] AtualizaClienteInputDto input)
     {
         var response = await _clienteHandler.AtualizarCliente(input);
@@ -30,6 +33,7 @@ public class ClienteController : BaseController
     }
 
     [HttpGet("{cpf}")]
+    [Authorize(PolicyRole.Cliente)]
     public async Task<IActionResult> GetClienteByCpf(string cpf)
     {
         var response = await _clienteHandler.GetClienteByCPF(cpf);
