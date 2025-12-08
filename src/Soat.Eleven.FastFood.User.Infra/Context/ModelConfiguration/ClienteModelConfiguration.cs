@@ -10,6 +10,8 @@ public class ClienteModelConfiguration : EntityBaseModelConfiguration<Cliente>
     {
         base.Configure(builder);
 
+        builder.ToTable("Clientes");
+
         builder.HasOne(c => c.Usuario)
                .WithOne(u => u.Cliente)
                .HasForeignKey<Cliente>(c => c.UsuarioId)

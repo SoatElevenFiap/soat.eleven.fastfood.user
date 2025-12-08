@@ -27,6 +27,8 @@ public class UsuarioModelConfiguration : EntityBaseModelConfiguration<Usuario>
     {
         base.Configure(builder);
 
+        builder.ToTable("Usuarios");
+
         builder.Property(c => c.Nome)
                .IsRequired();
 

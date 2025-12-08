@@ -22,6 +22,9 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString")));
 
 builder.Services.RegisterRepositories();
+builder.Services.RegisterValidators();
+builder.Services.RegisterServices();
+builder.Services.RegisterHandlers();
 
 builder.Services.AddCors();
 

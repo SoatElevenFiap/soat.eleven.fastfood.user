@@ -9,6 +9,11 @@ public class JwtTokenService : IJwtTokenService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+    public JwtTokenService(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
     public Guid GetUsuarioId()
     {
         var id = ReadToken(JwtRegisteredClaimNames.Sub);
