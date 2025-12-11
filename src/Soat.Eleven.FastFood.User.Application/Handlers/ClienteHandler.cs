@@ -14,14 +14,17 @@ public class ClienteHandler : BaseHandler, IClienteHandler
     private readonly IClienteRepository clienteRepository;
     private readonly IUsuarioRepository usuarioRepository;
     private readonly IJwtTokenService authenticationService;
+    private readonly IPasswordService passwordService;
 
     public ClienteHandler(IClienteRepository clienteRepository,
                           IUsuarioRepository usuarioRepository,
-                          IJwtTokenService authenticationService)
+                          IJwtTokenService authenticationService,
+                          IPasswordService passwordService)
     {
         this.clienteRepository = clienteRepository;
         this.usuarioRepository = usuarioRepository;
         this.authenticationService = authenticationService;
+        this.passwordService = passwordService;
     }
 
     public async Task<ResponseHandler> AtualizarCliente(AtualizaClienteInputDto input)
@@ -92,7 +95,9 @@ public class ClienteHandler : BaseHandler, IClienteHandler
 
         var cliente = (Cliente)input;
 
-        clienteRepository.Update(cliente);
+        cliente.Usuario.Senha = passwordService.TransformToHash(input.Senha);
+
+        await clienteRepository.AddAsync(cliente);
 
         return SendSuccess((UsuarioClienteOutputDto)cliente);
     }

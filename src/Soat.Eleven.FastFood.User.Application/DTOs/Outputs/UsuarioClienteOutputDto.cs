@@ -23,4 +23,18 @@ public class UsuarioClienteOutputDto
             Cpf = cliente.Cpf,
             DataDeNascimento = cliente.DataDeNascimento
         };
+
+    public static explicit operator UsuarioClienteOutputDto(Usuario usuario)
+    {
+        return new UsuarioClienteOutputDto
+        {
+            Id = usuario.Id,
+            ClientId = usuario.Cliente?.Id ?? Guid.Empty,
+            Nome = usuario.Nome,
+            Email = usuario.Email,
+            Telefone = usuario.Telefone,
+            Cpf = usuario.Cliente?.Cpf ?? string.Empty,
+            DataDeNascimento = usuario.Cliente?.DataDeNascimento ?? DateTime.MinValue
+        };
+    }
 }

@@ -43,6 +43,14 @@ public abstract class BaseHandler
         response.Data = data;
         return response;
     }
+
+    protected ResponseHandler Send(object data)
+    {
+        var response = new ResponseHandler();
+        response.Success = data is not null;
+        response.Data = data;
+        return response;
+    }
 }
 
 public class ResponseHandler

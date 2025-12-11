@@ -50,6 +50,9 @@ public class UsuarioHandler : BaseHandler, IUsuarioHandler
         var usuarioId = authenticationService.GetUsuarioId();
         var usuario = await usuarioRepository.GetByIdAsync(usuarioId);
 
-        return SendSuccess((UsuarioOutputDto)usuario);
+        if (usuario is null)
+            return SendError("Usuário não autenticado.");
+
+        return usuario.Cliente is null ? SendSuccess((UsuarioOutputDto)usuario) : SendSuccess((UsuarioClienteOutputDto)usuario);
     }
 }

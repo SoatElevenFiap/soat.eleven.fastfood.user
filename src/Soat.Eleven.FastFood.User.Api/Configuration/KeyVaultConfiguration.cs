@@ -8,8 +8,7 @@ public static class KeyVaultConfiguration
 {
     public static WebApplicationBuilder ConfigureKeyVault(this WebApplicationBuilder builder)
     {
-        var secretKeyVaultName = builder.Configuration["KeyVault:SecretKeyName"];
-        var saltKeyVaultName = builder.Configuration["KeyVault:SaltKeyName"];
+        var keyVaultName = builder.Configuration["KeyVault:Name"];
 
         var isDevelopmentEnvironment = builder.Environment.IsDevelopment();
         TokenCredential credential;
@@ -31,16 +30,10 @@ public static class KeyVaultConfiguration
             credential = new DefaultAzureCredential();
         }
 
-        if (!string.IsNullOrEmpty(secretKeyVaultName))
+        if (!string.IsNullOrEmpty(keyVaultName))
         {
-            SetKeyVault(builder, secretKeyVaultName, credential);
+            SetKeyVault(builder, keyVaultName, credential);
             Console.WriteLine("🔐 Configuração do Key Vault para SecretKey carregada com sucesso.");
-        }
-
-        if (!string.IsNullOrEmpty(saltKeyVaultName))
-        {
-            SetKeyVault(builder, saltKeyVaultName, credential);
-            Console.WriteLine("🔐 Configuração do Key Vault para SaltKey carregada com sucesso.");
         }
 
         return builder;
@@ -48,10 +41,18 @@ public static class KeyVaultConfiguration
 
     private static void SetKeyVault(WebApplicationBuilder builder, string keyVaultName, TokenCredential credential)
     {
-        builder.Configuration.AddAzureKeyVault(
-            new Uri($"https://{keyVaultName}.vault.azure.net/"),
-            credential,
-            new KeyVaultSecretManager());
+        try
+        {
+            builder.Configuration.AddAzureKeyVault(
+                new Uri($"https://{keyVaultName}.vault.azure.net/"),
+                credential,
+                new KeyVaultSecretManager());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERRO : ao configurar o Key Vault: {ex.Message}");
+            throw;
+        }
     }
 }
 
