@@ -1,0 +1,52 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install SonarScanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Begin Sonar Analysis
+        run: |
+          dotnet sonarscanner begin \
+            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
+            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test with Coverage
+        run: |
+          dotnet test \
+            --no-build \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=opencover
+
+      - name: End Sonar Analysis
+        run: dotnet sonarscanner end \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
