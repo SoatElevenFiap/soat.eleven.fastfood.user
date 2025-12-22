@@ -58,29 +58,6 @@ public class UsuarioTests
     }
 
     [Test]
-    public void Properties_WhenSetToNull_ShouldReturnNull()
-    {
-        // Act
-        var usuario = new Usuario
-        {
-            Id = Guid.Empty,
-            Nome = null,
-            Email = null,
-            Senha = null,
-            Telefone = null,
-            Cliente = null
-        };
-
-        // Assert
-        Assert.That(usuario.Id, Is.EqualTo(Guid.Empty));
-        Assert.That(usuario.Nome, Is.Null);
-        Assert.That(usuario.Email, Is.Null);
-        Assert.That(usuario.Senha, Is.Null);
-        Assert.That(usuario.Telefone, Is.Null);
-        Assert.That(usuario.Cliente, Is.Null);
-    }
-
-    [Test]
     public void Properties_WhenSetToEmptyStrings_ShouldReturnEmptyStrings()
     {
         // Act
@@ -176,12 +153,12 @@ public class UsuarioTests
         var dataDeNascimento = DateTime.Now.AddYears(-25);
 
         // Act
-        usuario.CriarCliente(dataDeNascimento, null);
+        usuario.CriarCliente(dataDeNascimento, string.Empty);
 
         // Assert
         Assert.That(usuario.Cliente, Is.Not.Null);
         Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.Null);
+        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(string.Empty));
     }
 
     [Test]

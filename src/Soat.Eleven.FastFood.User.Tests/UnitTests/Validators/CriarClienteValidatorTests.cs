@@ -1,5 +1,6 @@
 using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
 using Soat.Eleven.FastFood.User.Application.Validators;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 
 namespace Soat.Eleven.FastFood.User.Tests.UnitTests.Validators;
 
@@ -55,7 +56,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
     }
 
     [Test]
@@ -77,7 +78,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome deve ter no máximo 100 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
     }
 
     [Test]
@@ -99,7 +100,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O CPF é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
     }
 
     [Test]
@@ -121,7 +122,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O CPF deve ter exatamente 11 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_LENGTH), Is.True);
     }
 
     [Test]
@@ -143,7 +144,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
     }
 
     [Test]
@@ -165,7 +166,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email deve ser um endereço válido."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
     }
 
     [Test]
@@ -187,7 +188,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -209,7 +210,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha deve ter no mínimo 6 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_MIN_LENGTH), Is.True);
     }
 
     [Test]
@@ -231,7 +232,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
     }
 
     [Test]
@@ -253,7 +254,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone deve ter no máximo 15 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
     }
 
     [Test]
@@ -275,7 +276,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A data de nascimento é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
     }
 
     [Test]
@@ -297,7 +298,7 @@ public class CriarClienteValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A data de nascimento deve ser anterior à data atual."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_INVALID), Is.True);
     }
 
     [Test]
@@ -320,11 +321,11 @@ public class CriarClienteValidatorTests
         // Assert
         Assert.That(result.IsValid, Is.False);
         Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(6));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O CPF é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha é obrigatória."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A data de nascimento é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
     }
 }

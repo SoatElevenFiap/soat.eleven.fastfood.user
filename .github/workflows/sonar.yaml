@@ -2,16 +2,15 @@ name: SonarCloud Analysis
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: 
+      - '**'
 
 jobs:
-  build:
-    name: Build and Analyze
+  build-and-analyze:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -23,11 +22,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Set up JDK 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: 17
-          distribution: 'zulu'
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Cache SonarQube Cloud packages
         id: cache-sonar-scanner
@@ -44,13 +43,13 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore src/Soat.Eleven.FastFood.User.sln
 
       - name: Begin Sonar Analysis
         run: |
-          dotnet sonarscanner begin \
-            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
+          ./.sonar/scanner/dotnet-sonarscanner begin \
+            /k:"SoatElevenFiap_soat.eleven.fastfood.user" \
+            /o:"soatelevenfiap" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
@@ -58,15 +57,14 @@ jobs:
             /d:sonar.qualitygate.wait=true
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build src/Soat.Eleven.FastFood.User.sln --configuration Release --no-restore
 
       - name: Test with Coverage
         run: |
-          dotnet test \
+          dotnet test src/Soat.Eleven.FastFood.User.sln \
             --no-build \
-            /p:CollectCoverage=true \
-            /p:CoverletOutputFormat=opencover
+            --configuration Release \
+            /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage.opencover.xml
 
       - name: End Sonar Analysis
-        run: dotnet sonarscanner end \
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

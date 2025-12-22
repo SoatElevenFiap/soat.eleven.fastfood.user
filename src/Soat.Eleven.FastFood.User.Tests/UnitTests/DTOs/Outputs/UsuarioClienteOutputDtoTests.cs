@@ -94,8 +94,7 @@ public class UsuarioClienteOutputDtoTests
         {
             Id = Guid.NewGuid(),
             Cpf = "12345678901",
-            DataDeNascimento = DateTime.Now.AddYears(-30),
-            Usuario = null
+            DataDeNascimento = DateTime.Now.AddYears(-30)
         };
 
         // Act & Assert
@@ -145,14 +144,14 @@ public class UsuarioClienteOutputDtoTests
         var cliente = new Cliente
         {
             Id = Guid.NewGuid(),
-            Cpf = null,
+            Cpf = string.Empty,
             DataDeNascimento = DateTime.Now.AddYears(-25),
             Usuario = new Usuario
             {
                 Id = Guid.NewGuid(),
-                Nome = null,
-                Email = null,
-                Telefone = null,
+                Nome = string.Empty,
+                Email = string.Empty,
+                Telefone = string.Empty,
                 Perfil = PerfilUsuario.Cliente
             }
         };
@@ -162,10 +161,10 @@ public class UsuarioClienteOutputDtoTests
 
         // Assert
         Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Nome, Is.Null);
-        Assert.That(dto.Email, Is.Null);
-        Assert.That(dto.Telefone, Is.Null);
-        Assert.That(dto.Cpf, Is.Null);
+        Assert.That(dto.Nome, Is.Empty);
+        Assert.That(dto.Email, Is.Empty);
+        Assert.That(dto.Telefone, Is.Empty);
+        Assert.That(dto.Cpf, Is.Empty);
     }
 
     [Test]

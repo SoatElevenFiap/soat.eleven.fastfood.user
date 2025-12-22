@@ -1,5 +1,6 @@
 using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
 using Soat.Eleven.FastFood.User.Application.Validators;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 
 namespace Soat.Eleven.FastFood.User.Tests.UnitTests.Validators;
 
@@ -47,7 +48,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha atual é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -65,7 +66,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -83,7 +84,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha deve ter no mínimo 6 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_MIN_LENGTH), Is.True);
     }
 
     [Test]
@@ -101,7 +102,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha deve ser diferente da senha atual."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_DIFFERENT), Is.True);
     }
 
     [Test]
@@ -138,8 +139,8 @@ public class AtualizarSenhaValidatorTests
         // Assert
         Assert.That(result.IsValid, Is.False);
         Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(2));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha atual é obrigatória."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -157,7 +158,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -175,7 +176,7 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A senha atual é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
     }
 
     [Test]
@@ -193,6 +194,6 @@ public class AtualizarSenhaValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "A nova senha é obrigatória."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
     }
 }

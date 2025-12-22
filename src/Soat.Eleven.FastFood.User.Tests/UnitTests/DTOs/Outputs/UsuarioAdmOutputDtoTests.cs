@@ -98,9 +98,6 @@ public class UsuarioAdmOutputDtoTests
         var usuario = new Usuario
         {
             Id = Guid.NewGuid(),
-            Nome = null,
-            Email = null,
-            Telefone = null,
             Perfil = PerfilUsuario.Administrador
         };
 

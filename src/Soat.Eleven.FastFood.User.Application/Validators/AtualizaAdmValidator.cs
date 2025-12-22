@@ -1,5 +1,6 @@
 using FluentValidation;
 using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 
 namespace Soat.Eleven.FastFood.User.Application.Validators;
 
@@ -8,18 +9,18 @@ public class AtualizaAdmValidator : AbstractValidator<AtualizaAdmInputDto>
     public AtualizaAdmValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("O ID é obrigatório.");
+            .NotEmpty().WithMessage(ErrorMessages.ID_REQUIRED);
 
         RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage("O nome é obrigatório.")
-            .MaximumLength(100).WithMessage("O nome deve ter no máximo 100 caracteres.");
+            .NotEmpty().WithMessage(ErrorMessages.NAME_REQUIRED)
+            .MaximumLength(100).WithMessage(ErrorMessages.NAME_MAX_LENGTH);
         
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("O email é obrigatório.")
-            .EmailAddress().WithMessage("O email deve ser um endereço válido.");
-        
+            .NotEmpty().WithMessage(ErrorMessages.EMAIL_REQUIRED)
+            .EmailAddress().WithMessage(ErrorMessages.EMAIL_INVALID);
+
         RuleFor(x => x.Telefone)
-            .NotEmpty().WithMessage("O telefone é obrigatório.")
-            .MaximumLength(15).WithMessage("O telefone deve ter no máximo 15 caracteres.");
+            .NotEmpty().WithMessage(ErrorMessages.PHONE_REQUIRED)
+            .MaximumLength(15).WithMessage(ErrorMessages.PHONE_MAX_LENGTH);
     }
 }
