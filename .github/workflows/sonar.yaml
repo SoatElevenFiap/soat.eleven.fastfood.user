@@ -1,17 +1,17 @@
 name: SonarCloud Analysis
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
-      - main
+      - master
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Build and Analyze
+  build-and-analyze:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
