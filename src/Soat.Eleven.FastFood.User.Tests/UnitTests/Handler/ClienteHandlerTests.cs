@@ -83,6 +83,7 @@ public class ClienteHandlerTests
 
         _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
         _clienteRepositoryMock.Setup(x => x.ExistByCpf(input.Cpf)).ReturnsAsync(false);
+        _passwordServiceMock.Setup(x => x.TransformToHash(input.Senha)).Returns("hashedPassword");
 
         // Act
         var result = await _handler.InserirCliente(input);
@@ -91,6 +92,33 @@ public class ClienteHandlerTests
         Assert.That(result.Success, Is.True);
         Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
         _clienteRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Cliente>()), Times.Once);
+    }
+
+    [Test]
+    public async Task InserirCliente_WhenValidationFails_ShouldReturnError()
+    {
+        // Arrange
+        var input = new CriarClienteInputDto
+        {
+            Nome = string.Empty, // Invalid - empty name
+            Email = "invalid-email", // Invalid - invalid email format
+            Senha = "123", // Invalid - too short
+            Telefone = string.Empty, // Invalid - empty phone
+            Cpf = "123", // Invalid - incorrect CPF length
+            DataDeNascimento = DateTime.Now.AddYears(1) // Invalid - future date
+        };
+
+        _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
+        _clienteRepositoryMock.Setup(x => x.ExistByCpf(input.Cpf)).ReturnsAsync(false);
+
+        // Act
+        var result = await _handler.InserirCliente(input);
+
+        // Assert
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        var errors = (List<string>)result.Data;
+        Assert.That(errors.Count, Is.GreaterThan(0));
     }
 
     [Test]
@@ -186,6 +214,51 @@ public class ClienteHandlerTests
         Assert.That(result.Success, Is.True);
         Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
         _clienteRepositoryMock.Verify(x => x.Update(It.IsAny<Cliente>()), Times.Once);
+    }
+
+    [Test]
+    public async Task AtualizarCliente_WhenValidationFails_ShouldReturnError()
+    {
+        // Arrange
+        var usuarioId = Guid.NewGuid();
+        var input = new AtualizaClienteInputDto
+        {
+            Id = Guid.Empty, // Invalid - empty ID
+            ClienteId = Guid.Empty, // Invalid - empty ClienteId
+            Nome = string.Empty, // Invalid - empty name
+            Email = "invalid-email", // Invalid - invalid email format
+            Telefone = new string('9', 20), // Invalid - exceeds max length
+            Cpf = "123", // Invalid - incorrect CPF length
+            DataDeNascimento = DateTime.Now.AddYears(1) // Invalid - future date
+        };
+
+        var cliente = new Cliente
+        {
+            Id = usuarioId,
+            Usuario = new Usuario
+            {
+                Id = usuarioId,
+                Nome = "João Silva",
+                Email = "joao@email.com",
+                Telefone = "11999999999"
+            },
+            Cpf = "12345678901",
+            DataDeNascimento = DateTime.Now.AddYears(-30)
+        };
+
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
+        _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
+        _clienteRepositoryMock.Setup(x => x.ExistByCpf(input.Cpf)).ReturnsAsync(false);
+        _clienteRepositoryMock.Setup(x => x.GetByIdAsync(usuarioId)).ReturnsAsync(cliente);
+
+        // Act
+        var result = await _handler.AtualizarCliente(input);
+
+        // Assert
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        var errors = (List<string>)result.Data;
+        Assert.That(errors.Count, Is.GreaterThan(0));
     }
 
     [Test]

@@ -17,7 +17,7 @@
     <ThresholdStat>minimum</ThresholdStat>
     <Include>[Soat.Eleven.FastFood.User.Application]*,[Soat.Eleven.FastFood.User.Domain]*</Include>
     <Exclude>[*.Tests]*,[*]*Program,[*]*Startup,[*]*Configuration*,[*]*RegisterDependencyInjection*</Exclude>
-    <ExcludeByFile>**/Migrations/**/*,**/Configuration/**/*</ExcludeByFile>
+    <ExcludeByFile>**/Migrations/**/*,**/Configuration/**/*,**/helm/**/*,**/charts/**/*,**/k8s/**/*,**/kubernetes/**/*,**/manifests/**/*</ExcludeByFile>
   </PropertyGroup>
 
   <ItemGroup>
