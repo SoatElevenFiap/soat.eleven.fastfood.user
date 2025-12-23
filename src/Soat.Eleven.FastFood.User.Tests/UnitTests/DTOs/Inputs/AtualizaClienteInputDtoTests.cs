@@ -108,17 +108,17 @@ public class AtualizaClienteInputDtoTests
     }
 
     [Test]
-    public void ImplicitOperator_WhenConvertedWithNullValues_ShouldReturnClienteWithNullProperties()
+    public void ImplicitOperator_WhenConvertedWithEmptyStringValues_ShouldReturnClienteWithEmptyProperties()
     {
         // Arrange
         var dto = new AtualizaClienteInputDto
         {
             Id = Guid.NewGuid(),
-            Nome = null,
-            Email = null,
-            Telefone = null,
+            Nome = string.Empty,
+            Email = string.Empty,
+            Telefone = string.Empty,
             ClienteId = Guid.NewGuid(),
-            Cpf = null,
+            Cpf = string.Empty,
             DataDeNascimento = default(DateTime)
         };
 
@@ -128,10 +128,10 @@ public class AtualizaClienteInputDtoTests
         // Assert
         Assert.That(cliente, Is.Not.Null);
         Assert.That(cliente.Usuario, Is.Not.Null);
-        Assert.That(cliente.Usuario.Nome, Is.Null);
-        Assert.That(cliente.Usuario.Email, Is.Null);
-        Assert.That(cliente.Usuario.Telefone, Is.Null);
-        Assert.That(cliente.Cpf, Is.Null);
+        Assert.That(cliente.Usuario.Nome, Is.EqualTo(string.Empty));
+        Assert.That(cliente.Usuario.Email, Is.EqualTo(string.Empty));
+        Assert.That(cliente.Usuario.Telefone, Is.EqualTo(string.Empty));
+        Assert.That(cliente.Cpf, Is.EqualTo(string.Empty));
         Assert.That(cliente.DataDeNascimento, Is.EqualTo(default(DateTime)));
     }
 

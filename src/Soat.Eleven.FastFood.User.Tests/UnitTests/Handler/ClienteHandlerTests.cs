@@ -16,6 +16,7 @@ public class ClienteHandlerTests
     private Mock<IClienteRepository> _clienteRepositoryMock;
     private Mock<IUsuarioRepository> _usuarioRepositoryMock;
     private Mock<IJwtTokenService> _jwtTokenServiceMock;
+    private Mock<IPasswordService> _passwordServiceMock;
     private ClienteHandler _handler;
     private Fixture _fixture;
 
@@ -25,12 +26,14 @@ public class ClienteHandlerTests
         _clienteRepositoryMock = new Mock<IClienteRepository>();
         _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
         _jwtTokenServiceMock = new Mock<IJwtTokenService>();
+        _passwordServiceMock = new Mock<IPasswordService>();
         _fixture = new Fixture();
 
         _handler = new ClienteHandler(
             _clienteRepositoryMock.Object,
             _usuarioRepositoryMock.Object,
-            _jwtTokenServiceMock.Object);
+            _jwtTokenServiceMock.Object,
+            _passwordServiceMock.Object);
     }
 
     [Test]
@@ -87,7 +90,7 @@ public class ClienteHandlerTests
         // Assert
         Assert.That(result.Success, Is.True);
         Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
-        _clienteRepositoryMock.Verify(x => x.Update(It.IsAny<Cliente>()), Times.Once);
+        _clienteRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Cliente>()), Times.Once);
     }
 
     [Test]
