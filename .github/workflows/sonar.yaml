@@ -64,10 +64,7 @@ jobs:
           dotnet test src/Soat.Eleven.FastFood.User.sln \
             --no-build \
             --configuration Release \
-            --verbosity normal \
-            --collect:"XPlat Code Coverage" \
-            --results-directory ./coverage \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage.opencover.xml
 
       - name: End Sonar Analysis
         run: dotnet sonarscanner end \
