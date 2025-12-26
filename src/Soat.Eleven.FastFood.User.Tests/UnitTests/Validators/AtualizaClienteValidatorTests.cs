@@ -282,7 +282,7 @@ public class AtualizaClienteValidatorTests
         var dto = new AtualizaClienteInputDto
         {
             Id = Guid.NewGuid(),
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Email = "joao@email.com",
             Telefone = "11999999999",
             ClienteId = Guid.NewGuid(),
