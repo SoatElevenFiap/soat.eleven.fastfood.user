@@ -21,7 +21,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -96,7 +96,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "",
             Email = "joao@email.com",
             Senha = "123456",
@@ -121,7 +121,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "123456789", // 9 characters instead of 11
             Email = "joao@email.com",
             Senha = "123456",
@@ -146,7 +146,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "",
             Senha = "123456",
@@ -171,7 +171,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "email_invalido",
             Senha = "123456",
@@ -196,7 +196,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "",
@@ -221,7 +221,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123", // Less than 6 characters
@@ -246,7 +246,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -271,7 +271,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -296,7 +296,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -321,7 +321,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "Jo�o Silva",
+            Nome = "João Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",

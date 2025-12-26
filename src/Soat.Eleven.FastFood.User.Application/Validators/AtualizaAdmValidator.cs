@@ -4,23 +4,16 @@ using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 
 namespace Soat.Eleven.FastFood.User.Application.Validators;
 
-public class AtualizaAdmValidator : AbstractValidator<AtualizaAdmInputDto>
+public class AtualizaAdmValidator : BaseValidator<AtualizaAdmInputDto>
 {
     public AtualizaAdmValidator()
     {
-        RuleFor(x => x.Id)
-            .NotEmpty().WithMessage(ErrorMessages.ID_REQUIRED);
+        ApplyIdRules(RuleFor(x => x.Id));
 
-        RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage(ErrorMessages.NAME_REQUIRED)
-            .MaximumLength(100).WithMessage(ErrorMessages.NAME_MAX_LENGTH);
+        ApplyNomeRules(RuleFor(x => x.Nome));
+
+        ApplyEmailRules(RuleFor(x => x.Email));
         
-        RuleFor(x => x.Email)
-            .NotEmpty().WithMessage(ErrorMessages.EMAIL_REQUIRED)
-            .EmailAddress().WithMessage(ErrorMessages.EMAIL_INVALID);
-
-        RuleFor(x => x.Telefone)
-            .NotEmpty().WithMessage(ErrorMessages.PHONE_REQUIRED)
-            .MaximumLength(15).WithMessage(ErrorMessages.PHONE_MAX_LENGTH);
+        ApplyTelefoneRules(RuleFor(x => x.Telefone));
     }
 }
