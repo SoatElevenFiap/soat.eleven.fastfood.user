@@ -1,5 +1,6 @@
 using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
 using Soat.Eleven.FastFood.User.Application.Validators;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 using System.Linq;
 
 namespace Soat.Eleven.FastFood.User.Tests.UnitTests.Validators;
@@ -52,7 +53,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O ID é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
     }
 
     [Test]
@@ -72,7 +73,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
     }
 
     [Test]
@@ -92,7 +93,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome deve ter no máximo 100 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
     }
 
     [Test]
@@ -112,7 +113,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
     }
 
     [Test]
@@ -132,7 +133,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email deve ser um endereço válido."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
     }
 
     [Test]
@@ -152,7 +153,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
     }
 
     [Test]
@@ -172,7 +173,7 @@ public class AtualizaAdmValidatorTests
 
         // Assert
         Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone deve ter no máximo 15 caracteres."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
     }
 
     [Test]
@@ -193,10 +194,10 @@ public class AtualizaAdmValidatorTests
         // Assert
         Assert.That(result.IsValid, Is.False);
         Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(4));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O ID é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O nome é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O email é obrigatório."), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == "O telefone é obrigatório."), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
     }
 
     [Test]

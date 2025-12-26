@@ -126,7 +126,6 @@ public class UsuarioOutputDtoTests
             Cliente = new Cliente
             {
                 Id = Guid.NewGuid(),
-                Cpf = null,
                 DataDeNascimento = DateTime.Now.AddYears(-30)
             }
         };
@@ -178,9 +177,6 @@ public class UsuarioOutputDtoTests
         var usuario = new Usuario
         {
             Id = Guid.NewGuid(),
-            Nome = null,
-            Email = null,
-            Telefone = null,
             Perfil = PerfilUsuario.Administrador,
             Cliente = null
         };

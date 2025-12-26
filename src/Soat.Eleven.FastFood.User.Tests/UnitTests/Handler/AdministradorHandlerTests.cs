@@ -70,6 +70,30 @@ public class AdministradorHandlerTests
     }
 
     [Test]
+    public async Task CriarAdministrador_WhenValidationFails_ShouldReturnError()
+    {
+        // Arrange
+        var input = new CriarAdmInputDto
+        {
+            Nome = string.Empty, // Invalid - empty name
+            Email = "invalid-email", // Invalid - invalid email format
+            Senha = "123", // Invalid - too short
+            Telefone = string.Empty // Invalid - empty phone
+        };
+
+        _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
+
+        // Act
+        var result = await _handler.CriarAdministrador(input);
+
+        // Assert
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        var errors = (List<string>)result.Data;
+        Assert.That(errors.Count, Is.GreaterThan(0));
+    }
+
+    [Test]
     public async Task AtualizarAdminstrador_WhenAdministradorNotFound_ShouldReturnError()
     {
         // Arrange
@@ -146,5 +170,65 @@ public class AdministradorHandlerTests
         Assert.That(administrador.Telefone, Is.EqualTo(input.Telefone));
 
         _usuarioRepositoryMock.Verify(x => x.Update(It.IsAny<Usuario>()), Times.Once);
+    }
+
+    [Test]
+    public async Task AtualizarAdministrador_WhenAdministradorNotFound_ShouldReturnError()
+    {
+        // Arrange
+        var input = new AtualizaAdmInputDto
+        {
+            Id = Guid.NewGuid(),
+            Nome = "Admin",
+            Email = "admin@email.com",
+            Telefone = "11999999999"
+        };
+
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(Guid.NewGuid());
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(null as Usuario);
+
+        // Act
+        var result = await _handler.AtualizarAdminstrador(input);
+
+        // Assert
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Data, Is.EqualTo("Administrador não encontrado"));
+    }
+
+    [Test]
+    public async Task AtualizarAdministrador_WhenValidationFails_ShouldReturnError()
+    {
+        // Arrange
+        var administradorId = Guid.NewGuid();
+        var input = new AtualizaAdmInputDto
+        {
+            Id = Guid.Empty, // Invalid - empty ID
+            Nome = string.Empty, // Invalid - empty name
+            Email = "invalid-email", // Invalid - invalid email format
+            Telefone = new string('9', 20) // Invalid - exceeds max length
+        };
+
+        var administrador = new Usuario
+        {
+            Id = administradorId,
+            Nome = "Admin Original",
+            Email = "original@email.com",
+            Telefone = "11999999999",
+            Perfil = PerfilUsuario.Administrador
+        };
+
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(administradorId);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(administradorId)).ReturnsAsync(administrador);
+        _usuarioRepositoryMock.Setup(x => x.ExistEmail(input.Email)).ReturnsAsync(false);
+
+        // Act
+        var result = await _handler.AtualizarAdminstrador(input);
+
+        // Assert
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        var errors = (List<string>)result.Data;
+        Assert.That(errors.Count, Is.GreaterThan(0));
     }
 }

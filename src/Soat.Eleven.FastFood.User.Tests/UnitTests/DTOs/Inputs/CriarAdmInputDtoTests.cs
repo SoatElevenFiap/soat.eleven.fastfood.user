@@ -72,10 +72,10 @@ public class CriarAdmInputDtoTests
         // Arrange
         var dto = new CriarAdmInputDto
         {
-            Nome = null,
-            Email = null,
-            Senha = null,
-            Telefone = null
+            Nome = string.Empty,
+            Email = string.Empty,
+            Senha = string.Empty,
+            Telefone = string.Empty
         };
 
         // Act
@@ -83,10 +83,10 @@ public class CriarAdmInputDtoTests
 
         // Assert
         Assert.That(usuario, Is.Not.Null);
-        Assert.That(usuario.Nome, Is.Null);
-        Assert.That(usuario.Email, Is.Null);
-        Assert.That(usuario.Senha, Is.Null);
-        Assert.That(usuario.Telefone, Is.Null);
+        Assert.That(usuario.Nome, Is.EqualTo(string.Empty));
+        Assert.That(usuario.Email, Is.EqualTo(string.Empty));
+        Assert.That(usuario.Senha, Is.EqualTo(string.Empty));
+        Assert.That(usuario.Telefone, Is.EqualTo(string.Empty));
         Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
     }
 
