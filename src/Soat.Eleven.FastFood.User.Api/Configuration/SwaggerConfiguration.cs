@@ -47,7 +47,7 @@ API para gerenciamento de usuários do sistema FastFood
                                 Id = "Bearer"
                         }
                     },
-                    new string[] {}
+                    Array.Empty<string>()
                 }
             });
 
@@ -63,7 +63,7 @@ API para gerenciamento de usuários do sistema FastFood
             c.TagActionsBy(api =>
             {
                 var controllerName = api.ActionDescriptor.RouteValues["controller"];
-                return new[] { controllerName ?? "Default" };
+                return [controllerName ?? "Default"];
             });
         });
     }

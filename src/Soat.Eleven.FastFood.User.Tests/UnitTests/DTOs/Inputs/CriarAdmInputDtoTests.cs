@@ -35,11 +35,14 @@ public class CriarAdmInputDtoTests
             Telefone = telefone
         };
 
-        // Assert
-        Assert.That(dto.Nome, Is.EqualTo(nome));
-        Assert.That(dto.Email, Is.EqualTo(email));
-        Assert.That(dto.Senha, Is.EqualTo(senha));
-        Assert.That(dto.Telefone, Is.EqualTo(telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.Nome, Is.EqualTo(nome));
+            Assert.That(dto.Email, Is.EqualTo(email));
+            Assert.That(dto.Senha, Is.EqualTo(senha));
+            Assert.That(dto.Telefone, Is.EqualTo(telefone));
+        }
     }
 
     [Test]
@@ -58,12 +61,15 @@ public class CriarAdmInputDtoTests
         Usuario usuario = dto;
 
         // Assert
-        Assert.That(usuario, Is.Not.Null);
-        Assert.That(usuario.Nome, Is.EqualTo(dto.Nome));
-        Assert.That(usuario.Email, Is.EqualTo(dto.Email));
-        Assert.That(usuario.Senha, Is.EqualTo(dto.Senha));
-        Assert.That(usuario.Telefone, Is.EqualTo(dto.Telefone));
-        Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario, Is.Not.Null);
+            Assert.That(usuario.Nome, Is.EqualTo(dto.Nome));
+            Assert.That(usuario.Email, Is.EqualTo(dto.Email));
+            Assert.That(usuario.Senha, Is.EqualTo(dto.Senha));
+            Assert.That(usuario.Telefone, Is.EqualTo(dto.Telefone));
+            Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        }
     }
 
     [Test]
@@ -82,12 +88,15 @@ public class CriarAdmInputDtoTests
         Usuario usuario = dto;
 
         // Assert
-        Assert.That(usuario, Is.Not.Null);
-        Assert.That(usuario.Nome, Is.EqualTo(string.Empty));
-        Assert.That(usuario.Email, Is.EqualTo(string.Empty));
-        Assert.That(usuario.Senha, Is.EqualTo(string.Empty));
-        Assert.That(usuario.Telefone, Is.EqualTo(string.Empty));
-        Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario, Is.Not.Null);
+            Assert.That(usuario.Nome, Is.EqualTo(string.Empty));
+            Assert.That(usuario.Email, Is.EqualTo(string.Empty));
+            Assert.That(usuario.Senha, Is.EqualTo(string.Empty));
+            Assert.That(usuario.Telefone, Is.EqualTo(string.Empty));
+            Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        }
     }
 
     [Test]
@@ -106,12 +115,15 @@ public class CriarAdmInputDtoTests
         Usuario usuario = dto;
 
         // Assert
-        Assert.That(usuario, Is.Not.Null);
-        Assert.That(usuario.Nome, Is.EqualTo(""));
-        Assert.That(usuario.Email, Is.EqualTo(""));
-        Assert.That(usuario.Senha, Is.EqualTo(""));
-        Assert.That(usuario.Telefone, Is.EqualTo(""));
-        Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario, Is.Not.Null);
+            Assert.That(usuario.Nome, Is.EqualTo(""));
+            Assert.That(usuario.Email, Is.EqualTo(""));
+            Assert.That(usuario.Senha, Is.EqualTo(""));
+            Assert.That(usuario.Telefone, Is.EqualTo(""));
+            Assert.That(usuario.Perfil, Is.EqualTo(PerfilUsuario.Administrador));
+        }
     }
 
     [Test]
@@ -130,14 +142,17 @@ public class CriarAdmInputDtoTests
         Usuario usuario1 = dto;
         Usuario usuario2 = dto;
 
-        // Assert
-        Assert.That(usuario1, Is.Not.Null);
-        Assert.That(usuario2, Is.Not.Null);
-        Assert.That(usuario1, Is.Not.SameAs(usuario2));
-        Assert.That(usuario1.Nome, Is.EqualTo(usuario2.Nome));
-        Assert.That(usuario1.Email, Is.EqualTo(usuario2.Email));
-        Assert.That(usuario1.Senha, Is.EqualTo(usuario2.Senha));
-        Assert.That(usuario1.Telefone, Is.EqualTo(usuario2.Telefone));
-        Assert.That(usuario1.Perfil, Is.EqualTo(usuario2.Perfil));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(usuario1, Is.Not.Null);
+            Assert.That(usuario2, Is.Not.Null);
+            Assert.That(usuario1, Is.Not.SameAs(usuario2));
+            Assert.That(usuario1.Nome, Is.EqualTo(usuario2.Nome));
+            Assert.That(usuario1.Email, Is.EqualTo(usuario2.Email));
+            Assert.That(usuario1.Senha, Is.EqualTo(usuario2.Senha));
+            Assert.That(usuario1.Telefone, Is.EqualTo(usuario2.Telefone));
+            Assert.That(usuario1.Perfil, Is.EqualTo(usuario2.Perfil));
+        }
     }
 }

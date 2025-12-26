@@ -7,7 +7,7 @@ namespace Soat.Eleven.FastFood.User.Infra.Context.ModelConfiguration;
 
 public class UsuarioModelConfiguration : EntityBaseModelConfiguration<Usuario>
 {
-    private Usuario usuarioAdmDefault
+    private static Usuario UsuarioAdmDefault
     {
         get
         {
@@ -46,6 +46,6 @@ public class UsuarioModelConfiguration : EntityBaseModelConfiguration<Usuario>
                .HasConversion<string>();
 
 
-        builder.HasData(usuarioAdmDefault);
+        builder.HasData(UsuarioAdmDefault);
     }
 }

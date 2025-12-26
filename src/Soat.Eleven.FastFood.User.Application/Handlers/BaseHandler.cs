@@ -17,17 +17,21 @@ public abstract class BaseHandler
 
     protected ResponseHandler SendError()
     {
-        var response = new ResponseHandler();
-        response.Success = false;
-        response.Data = validateErrors;
+        var response = new ResponseHandler
+        {
+            Success = false,
+            Data = validateErrors
+        };
         return response;
     }
 
-    protected ResponseHandler SendError(string message)
+    protected static ResponseHandler SendError(string message)
     {
-        var response = new ResponseHandler();
-        response.Success = false;
-        response.Data = message;
+        var response = new ResponseHandler
+        {
+            Success = false,
+            Data = message
+        };
         return response;
     }
 
@@ -36,19 +40,23 @@ public abstract class BaseHandler
         validateErrors.Add(error);
     }
 
-    protected ResponseHandler SendSuccess(object data)
+    protected static ResponseHandler SendSuccess(object? data)
     {
-        var response = new ResponseHandler();
-        response.Success = true;
-        response.Data = data;
+        var response = new ResponseHandler
+        {
+            Success = true,
+            Data = data
+        };
         return response;
     }
 
-    protected ResponseHandler Send(object data)
+    protected static ResponseHandler Send(object data)
     {
-        var response = new ResponseHandler();
-        response.Success = data is not null;
-        response.Data = data;
+        var response = new ResponseHandler
+        {
+            Success = data is not null,
+            Data = data
+        };
         return response;
     }
 }
