@@ -4,6 +4,7 @@ using Soat.Eleven.FastFood.User.Application.DTOs.Outputs;
 using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 using Soat.Eleven.FastFood.User.Application.Validators;
 using Soat.Eleven.FastFood.User.Domain.Entities;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
@@ -32,22 +33,25 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         var usuarioId = authenticationService.GetUsuarioId();
 
         if (usuarioId == Guid.Empty)
-            return SendError("Usuário não autenticado");
+            return SendError(ErrorMessages.UNAUTHENTICATED);
 
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            return SendError("Usuário já existe");
+            return SendError(ErrorMessages.USER_FOUND);
 
         var existeCpf = await clienteRepository.ExistByCpf(input.Cpf);
 
         if (existeCpf)
-            AddError("Usuário já existe");
+            AddError(ErrorMessages.USER_FOUND);
 
         if (Validate(new AtualizaClienteValidator(), input))
             return SendError();
 
         var cliente = await clienteRepository.GetByIdAsync(usuarioId);
+
+        if (cliente is null)
+            return SendError(ErrorMessages.CLIENT_NOT_FOUND);
 
         cliente.Usuario.Nome = input.Nome;
         cliente.Usuario.Email = input.Email;
@@ -83,12 +87,12 @@ public class ClienteHandler : BaseHandler, IClienteHandler
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            return SendError("Usuário já existe");
+            return SendError(ErrorMessages.USER_FOUND);
 
         var existeCpf = await clienteRepository.ExistByCpf(input.Cpf);
 
         if (existeCpf)
-            return SendError("Usuário já existe");
+            return SendError(ErrorMessages.USER_FOUND);
 
         if (Validate(new CriarClienteValidator(), input))
             return SendError();

@@ -32,8 +32,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.True);
-        Assert.That(result.Errors, Is.Empty);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(result.Errors, Is.Empty);
+        }
     }
 
     [Test]
@@ -52,8 +55,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -72,8 +78,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -92,8 +101,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -112,8 +124,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -132,8 +147,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
+        }
     }
 
     [Test]
@@ -152,8 +170,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -172,8 +193,11 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -192,12 +216,15 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(4));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(4));
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.ID_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -216,7 +243,10 @@ public class AtualizaAdmValidatorTests
         var result = _validator.Validate(dto);
 
         // Assert
-        Assert.That(result.IsValid, Is.True);
-        Assert.That(result.Errors, Is.Empty);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(result.Errors, Is.Empty);
+        }
     }
 }

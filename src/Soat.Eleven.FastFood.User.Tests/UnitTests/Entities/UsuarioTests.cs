@@ -13,8 +13,11 @@ public class UsuarioTests
         var usuario = new Usuario();
 
         // Assert
-        Assert.That(usuario, Is.Not.Null);
-        Assert.That(usuario, Is.InstanceOf<IEntity>());
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario, Is.Not.Null);
+            Assert.That(usuario, Is.InstanceOf<IEntity>());
+        }
     }
 
     [Test]
@@ -22,7 +25,7 @@ public class UsuarioTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var nome = "João Silva";
+        var nome = "Joï¿½o Silva";
         var email = "joao@email.com";
         var senha = "123456";
         var telefone = "11999999999";
@@ -46,15 +49,18 @@ public class UsuarioTests
         };
 
         // Assert
-        Assert.That(usuario.Id, Is.EqualTo(id));
-        Assert.That(usuario.Nome, Is.EqualTo(nome));
-        Assert.That(usuario.Email, Is.EqualTo(email));
-        Assert.That(usuario.Senha, Is.EqualTo(senha));
-        Assert.That(usuario.Telefone, Is.EqualTo(telefone));
-        Assert.That(usuario.Perfil, Is.EqualTo(perfil));
-        Assert.That(usuario.CriadoEm, Is.EqualTo(criadoEm));
-        Assert.That(usuario.ModificadoEm, Is.EqualTo(modificadoEm));
-        Assert.That(usuario.Status, Is.EqualTo(status));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Id, Is.EqualTo(id));
+            Assert.That(usuario.Nome, Is.EqualTo(nome));
+            Assert.That(usuario.Email, Is.EqualTo(email));
+            Assert.That(usuario.Senha, Is.EqualTo(senha));
+            Assert.That(usuario.Telefone, Is.EqualTo(telefone));
+            Assert.That(usuario.Perfil, Is.EqualTo(perfil));
+            Assert.That(usuario.CriadoEm, Is.EqualTo(criadoEm));
+            Assert.That(usuario.ModificadoEm, Is.EqualTo(modificadoEm));
+            Assert.That(usuario.Status, Is.EqualTo(status));
+        }
     }
 
     [Test]
@@ -70,10 +76,13 @@ public class UsuarioTests
         };
 
         // Assert
-        Assert.That(usuario.Nome, Is.EqualTo(""));
-        Assert.That(usuario.Email, Is.EqualTo(""));
-        Assert.That(usuario.Senha, Is.EqualTo(""));
-        Assert.That(usuario.Telefone, Is.EqualTo(""));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Nome, Is.EqualTo(""));
+            Assert.That(usuario.Email, Is.EqualTo(""));
+            Assert.That(usuario.Senha, Is.EqualTo(""));
+            Assert.That(usuario.Telefone, Is.EqualTo(""));
+        }
     }
 
     [Test]
@@ -140,9 +149,12 @@ public class UsuarioTests
         usuario.CriarCliente(dataDeNascimento, cpf);
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cpf));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cpf));
+        }
     }
 
     [Test]
@@ -156,9 +168,12 @@ public class UsuarioTests
         usuario.CriarCliente(dataDeNascimento, string.Empty);
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(string.Empty));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(string.Empty));
+        }
     }
 
     [Test]
@@ -172,9 +187,12 @@ public class UsuarioTests
         usuario.CriarCliente(dataDeNascimento, "");
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(""));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(dataDeNascimento));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(""));
+        }
     }
 
     [Test]
@@ -188,9 +206,12 @@ public class UsuarioTests
         usuario.CriarCliente(default(DateTime), cpf);
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(default(DateTime)));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cpf));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(default(DateTime)));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cpf));
+        }
     }
 
     [Test]
@@ -210,10 +231,13 @@ public class UsuarioTests
         usuario.CriarCliente(secondDataNascimento, secondCpf);
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente, Is.Not.SameAs(firstCliente));
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(secondDataNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(secondCpf));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente, Is.Not.SameAs(firstCliente));
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(secondDataNascimento));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(secondCpf));
+        }
     }
 
     [Test]
@@ -236,10 +260,13 @@ public class UsuarioTests
         usuario.CriarCliente(newDataNascimento, newCpf);
 
         // Assert
-        Assert.That(usuario.Cliente, Is.Not.Null);
-        Assert.That(usuario.Cliente, Is.Not.SameAs(existingCliente));
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(newDataNascimento));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(newCpf));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.Not.Null);
+            Assert.That(usuario.Cliente, Is.Not.SameAs(existingCliente));
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(newDataNascimento));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(newCpf));
+        }
     }
 
     [Test]
@@ -258,10 +285,13 @@ public class UsuarioTests
         usuario.Cliente = cliente;
 
         // Assert
-        Assert.That(usuario.Cliente, Is.EqualTo(cliente));
-        Assert.That(usuario.Cliente.Id, Is.EqualTo(cliente.Id));
-        Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cliente.Cpf));
-        Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(cliente.DataDeNascimento));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario.Cliente, Is.EqualTo(cliente));
+            Assert.That(usuario.Cliente.Id, Is.EqualTo(cliente.Id));
+            Assert.That(usuario.Cliente.Cpf, Is.EqualTo(cliente.Cpf));
+            Assert.That(usuario.Cliente.DataDeNascimento, Is.EqualTo(cliente.DataDeNascimento));
+        }
     }
 
     [Test]
@@ -271,9 +301,12 @@ public class UsuarioTests
         var usuario = new Usuario();
 
         // Act & Assert
-        Assert.That(usuario, Is.AssignableTo<IEntity>());
-        Assert.That(usuario.Id, Is.TypeOf<Guid>());
-        Assert.That(usuario.CriadoEm, Is.TypeOf<DateTime>());
-        Assert.That(usuario.ModificadoEm, Is.TypeOf<DateTime>());
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(usuario, Is.AssignableTo<IEntity>());
+            Assert.That(usuario.Id, Is.TypeOf<Guid>());
+            Assert.That(usuario.CriadoEm, Is.TypeOf<DateTime>());
+            Assert.That(usuario.ModificadoEm, Is.TypeOf<DateTime>());
+        }
     }
 }

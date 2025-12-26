@@ -35,4 +35,12 @@ public static class ErrorMessages
     public const string NEW_PASSWORD_REQUIRED = "A nova senha é obrigatória.";
     public const string NEW_PASSWORD_MIN_LENGTH = "A nova senha deve ter no mínimo 6 caracteres.";
     public const string NEW_PASSWORD_DIFFERENT = "A nova senha deve ser diferente da senha atual.";
+
+    public const string UNAUTHENTICATED = "Usuário não autenticado.";
+    public const string INCORRECT_CURRENT_PASSWORD = "Senha atual incorreta.";
+    public const string USER_NOT_FOUND = "Usuário não encontrado.";
+    public const string ADMIN_NOT_FOUND = "Administrador não encontrado.";
+    public const string CLIENT_NOT_FOUND = "Cliente não encontrado.";
+    public const string USER_FOUND = "Usuário já existe.";
+
 }

@@ -28,9 +28,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.True);
-        Assert.That(result.Errors, Is.Empty);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(result.Errors, Is.Empty);
+        }
     }
 
     [Test]
@@ -46,9 +49,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -64,9 +70,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -82,9 +91,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_MIN_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_MIN_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -100,9 +112,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_DIFFERENT), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_DIFFERENT), Is.True);
+        }
     }
 
     [Test]
@@ -118,9 +133,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.True);
-        Assert.That(result.Errors, Is.Empty);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(result.Errors, Is.Empty);
+        }
     }
 
     [Test]
@@ -136,11 +154,14 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(2));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(2));
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -156,9 +177,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -174,9 +198,12 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CURRENT_PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -192,8 +219,11 @@ public class AtualizarSenhaValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NEW_PASSWORD_REQUIRED), Is.True);
+        }
     }
 }

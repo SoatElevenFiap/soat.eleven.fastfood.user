@@ -29,24 +29,26 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = newPassword
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
-        Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
+            Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+        }
     }
 
     [Test]
     public void Properties_WhenSetToNull_ShouldReturnNull()
     {
         // Act
-        var dto = new AtualizarSenhaInputDto
-        {
-            CurrentPassword = null,
-            NewPassword = null
-        };
+        var dto = new AtualizarSenhaInputDto();
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.Null);
-        Assert.That(dto.NewPassword, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.Null);
+            Assert.That(dto.NewPassword, Is.Null);
+        }
     }
 
     [Test]
@@ -59,9 +61,12 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = ""
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(""));
-        Assert.That(dto.NewPassword, Is.EqualTo(""));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(""));
+            Assert.That(dto.NewPassword, Is.EqualTo(""));
+        }
     }
 
     [Test]
@@ -77,10 +82,13 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = password
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(password));
-        Assert.That(dto.NewPassword, Is.EqualTo(password));
-        Assert.That(dto.CurrentPassword, Is.EqualTo(dto.NewPassword));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(password));
+            Assert.That(dto.NewPassword, Is.EqualTo(password));
+            Assert.That(dto.CurrentPassword, Is.EqualTo(dto.NewPassword));
+        }
     }
 
     [Test]
@@ -93,9 +101,12 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = "  nova senha  "
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo("   senha atual   "));
-        Assert.That(dto.NewPassword, Is.EqualTo("  nova senha  "));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo("   senha atual   "));
+            Assert.That(dto.NewPassword, Is.EqualTo("  nova senha  "));
+        }
     }
 
     [Test]
@@ -112,9 +123,12 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = newPassword
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
-        Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
+            Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+        }
     }
 
     [Test]
@@ -131,11 +145,14 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = newPassword
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
-        Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
-        Assert.That(dto.CurrentPassword.Length, Is.EqualTo(103));
-        Assert.That(dto.NewPassword.Length, Is.EqualTo(203));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
+            Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+            Assert.That(dto.CurrentPassword.Length, Is.EqualTo(103));
+            Assert.That(dto.NewPassword.Length, Is.EqualTo(203));
+        }
     }
 
     [Test]
@@ -152,11 +169,14 @@ public class AtualizarSenhaInputDtoTests
             NewPassword = newPassword
         };
 
-        // Assert
-        Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
-        Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
-        Assert.That(dto.CurrentPassword.Length, Is.EqualTo(1));
-        Assert.That(dto.NewPassword.Length, Is.EqualTo(1));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.CurrentPassword, Is.EqualTo(currentPassword));
+            Assert.That(dto.NewPassword, Is.EqualTo(newPassword));
+            Assert.That(dto.CurrentPassword, Has.Length.EqualTo(1));
+            Assert.That(dto.NewPassword, Has.Length.EqualTo(1));
+        }
     }
 
     [Test]
@@ -176,8 +196,11 @@ public class AtualizarSenhaInputDtoTests
         };
 
         // Act & Assert
-        Assert.That(dto1, Is.Not.SameAs(dto2));
-        Assert.That(dto1.CurrentPassword, Is.EqualTo(dto2.CurrentPassword));
-        Assert.That(dto1.NewPassword, Is.EqualTo(dto2.NewPassword));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto1, Is.Not.SameAs(dto2));
+            Assert.That(dto1.CurrentPassword, Is.EqualTo(dto2.CurrentPassword));
+            Assert.That(dto1.NewPassword, Is.EqualTo(dto2.NewPassword));
+        }
     }
 }

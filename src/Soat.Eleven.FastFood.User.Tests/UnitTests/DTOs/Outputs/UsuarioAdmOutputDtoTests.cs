@@ -35,11 +35,14 @@ public class UsuarioAdmOutputDtoTests
             Telefone = telefone
         };
 
-        // Assert
-        Assert.That(dto.Id, Is.EqualTo(id));
-        Assert.That(dto.Nome, Is.EqualTo(nome));
-        Assert.That(dto.Email, Is.EqualTo(email));
-        Assert.That(dto.Telefone, Is.EqualTo(telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.Id, Is.EqualTo(id));
+            Assert.That(dto.Nome, Is.EqualTo(nome));
+            Assert.That(dto.Email, Is.EqualTo(email));
+            Assert.That(dto.Telefone, Is.EqualTo(telefone));
+        }
     }
 
     [Test]
@@ -60,11 +63,14 @@ public class UsuarioAdmOutputDtoTests
         var dto = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(usuarioId));
-        Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
-        Assert.That(dto.Email, Is.EqualTo(usuario.Email));
-        Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(usuarioId));
+            Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
+            Assert.That(dto.Email, Is.EqualTo(usuario.Email));
+            Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+        }
     }
 
     [Test]
@@ -84,11 +90,14 @@ public class UsuarioAdmOutputDtoTests
         var dto = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(Guid.Empty));
-        Assert.That(dto.Nome, Is.EqualTo(""));
-        Assert.That(dto.Email, Is.EqualTo(""));
-        Assert.That(dto.Telefone, Is.EqualTo(""));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(Guid.Empty));
+            Assert.That(dto.Nome, Is.EqualTo(""));
+            Assert.That(dto.Email, Is.EqualTo(""));
+            Assert.That(dto.Telefone, Is.EqualTo(""));
+        }
     }
 
     [Test]
@@ -105,10 +114,13 @@ public class UsuarioAdmOutputDtoTests
         var dto = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Nome, Is.Null);
-        Assert.That(dto.Email, Is.Null);
-        Assert.That(dto.Telefone, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Nome, Is.Null);
+            Assert.That(dto.Email, Is.Null);
+            Assert.That(dto.Telefone, Is.Null);
+        }
     }
 
     [Test]
@@ -129,11 +141,14 @@ public class UsuarioAdmOutputDtoTests
         var dto = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(usuarioId));
-        Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
-        Assert.That(dto.Email, Is.EqualTo(usuario.Email));
-        Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(usuarioId));
+            Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
+            Assert.That(dto.Email, Is.EqualTo(usuario.Email));
+            Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+        }
     }
 
     [Test]
@@ -153,10 +168,13 @@ public class UsuarioAdmOutputDtoTests
         var dto = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Nome, Is.EqualTo("   Admin Silva   "));
-        Assert.That(dto.Email, Is.EqualTo("  admin@email.com  "));
-        Assert.That(dto.Telefone, Is.EqualTo(" 11999999999 "));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Nome, Is.EqualTo("   Admin Silva   "));
+            Assert.That(dto.Email, Is.EqualTo("  admin@email.com  "));
+            Assert.That(dto.Telefone, Is.EqualTo(" 11999999999 "));
+        }
     }
 
     [Test]
@@ -177,13 +195,16 @@ public class UsuarioAdmOutputDtoTests
         var dto2 = (UsuarioAdmOutputDto)usuario;
 
         // Assert
-        Assert.That(dto1, Is.Not.Null);
-        Assert.That(dto2, Is.Not.Null);
-        Assert.That(dto1, Is.Not.SameAs(dto2));
-        Assert.That(dto1.Id, Is.EqualTo(dto2.Id));
-        Assert.That(dto1.Nome, Is.EqualTo(dto2.Nome));
-        Assert.That(dto1.Email, Is.EqualTo(dto2.Email));
-        Assert.That(dto1.Telefone, Is.EqualTo(dto2.Telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto1, Is.Not.Null);
+            Assert.That(dto2, Is.Not.Null);
+            Assert.That(dto1, Is.Not.SameAs(dto2));
+            Assert.That(dto1.Id, Is.EqualTo(dto2.Id));
+            Assert.That(dto1.Nome, Is.EqualTo(dto2.Nome));
+            Assert.That(dto1.Email, Is.EqualTo(dto2.Email));
+            Assert.That(dto1.Telefone, Is.EqualTo(dto2.Telefone));
+        }
     }
 
     [Test]
@@ -204,13 +225,16 @@ public class UsuarioAdmOutputDtoTests
             Telefone = longTelefone
         };
 
-        // Assert
-        Assert.That(dto.Id, Is.EqualTo(id));
-        Assert.That(dto.Nome, Is.EqualTo(longNome));
-        Assert.That(dto.Email, Is.EqualTo(longEmail));
-        Assert.That(dto.Telefone, Is.EqualTo(longTelefone));
-        Assert.That(dto.Nome.Length, Is.EqualTo(200));
-        Assert.That(dto.Email.Length, Is.EqualTo(110));
-        Assert.That(dto.Telefone.Length, Is.EqualTo(50));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(dto.Id, Is.EqualTo(id));
+            Assert.That(dto.Nome, Is.EqualTo(longNome));
+            Assert.That(dto.Email, Is.EqualTo(longEmail));
+            Assert.That(dto.Telefone, Is.EqualTo(longTelefone));
+            Assert.That(dto.Nome.Length, Is.EqualTo(200));
+            Assert.That(dto.Email.Length, Is.EqualTo(110));
+            Assert.That(dto.Telefone.Length, Is.EqualTo(50));
+        }
     }
 }

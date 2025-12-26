@@ -5,6 +5,7 @@ using Soat.Eleven.FastFood.User.Application.DTOs.Inputs;
 using Soat.Eleven.FastFood.User.Application.DTOs.Outputs;
 using Soat.Eleven.FastFood.User.Application.Handlers;
 using Soat.Eleven.FastFood.User.Domain.Entities;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
@@ -46,9 +47,12 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.InserirCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Usuário já existe"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.USER_FOUND));
+        }
     }
 
     [Test]
@@ -62,9 +66,12 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.InserirCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Usuário já existe"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.USER_FOUND));
+        }
     }
 
     [Test]
@@ -88,9 +95,12 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.InserirCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        }
         _clienteRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Cliente>()), Times.Once);
     }
 
@@ -114,11 +124,14 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.InserirCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.TypeOf<List<string>>());
+        }
         var errors = (List<string>)result.Data;
-        Assert.That(errors.Count, Is.GreaterThan(0));
+        Assert.That(errors, Is.Not.Empty);
     }
 
     [Test]
@@ -131,9 +144,12 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.AtualizarCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Usuário não autenticado"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.UNAUTHENTICATED));
+        }
     }
 
     [Test]
@@ -210,9 +226,12 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.AtualizarCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        }
         _clienteRepositoryMock.Verify(x => x.Update(It.IsAny<Cliente>()), Times.Once);
     }
 
@@ -254,11 +273,14 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.AtualizarCliente(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.TypeOf<List<string>>());
+        }
         var errors = (List<string>)result.Data;
-        Assert.That(errors.Count, Is.GreaterThan(0));
+        Assert.That(errors, Is.Not.Empty);
     }
 
     [Test]
@@ -285,14 +307,20 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.GetClienteByCPF(cpf);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        }
 
         var output = (UsuarioClienteOutputDto)result.Data;
-        Assert.That(output.Cpf, Is.EqualTo(cpf));
-        Assert.That(output.Nome, Is.EqualTo(cliente.Usuario.Nome));
-        Assert.That(output.Email, Is.EqualTo(cliente.Usuario.Email));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(output.Cpf, Is.EqualTo(cpf));
+            Assert.That(output.Nome, Is.EqualTo(cliente.Usuario.Nome));
+            Assert.That(output.Email, Is.EqualTo(cliente.Usuario.Email));
+        }
     }
 
     [Test]
@@ -305,8 +333,11 @@ public class ClienteHandlerTests
         // Act
         var result = await _handler.GetClienteByCPF(cpf);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.Null);
+        }
     }
 }

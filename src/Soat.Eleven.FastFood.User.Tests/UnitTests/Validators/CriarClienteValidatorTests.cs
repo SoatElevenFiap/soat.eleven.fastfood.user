@@ -21,7 +21,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -32,9 +32,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.True);
-        Assert.That(result.Errors, Is.Empty);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.True);
+            Assert.That(result.Errors, Is.Empty);
+        }
     }
 
     [Test]
@@ -54,9 +57,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -76,9 +82,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_MAX_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -87,7 +96,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "",
             Email = "joao@email.com",
             Senha = "123456",
@@ -98,9 +107,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -109,7 +121,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "123456789", // 9 characters instead of 11
             Email = "joao@email.com",
             Senha = "123456",
@@ -120,9 +132,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -131,7 +146,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "",
             Senha = "123456",
@@ -142,9 +157,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -153,7 +171,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "email_invalido",
             Senha = "123456",
@@ -164,9 +182,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_INVALID), Is.True);
+        }
     }
 
     [Test]
@@ -175,7 +196,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "",
@@ -186,9 +207,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -197,7 +221,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123", // Less than 6 characters
@@ -208,9 +232,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_MIN_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_MIN_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -219,7 +246,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -230,9 +257,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -241,7 +271,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -252,9 +282,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_MAX_LENGTH), Is.True);
+        }
     }
 
     [Test]
@@ -263,7 +296,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -274,9 +307,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
+        }
     }
 
     [Test]
@@ -285,7 +321,7 @@ public class CriarClienteValidatorTests
         // Arrange
         var dto = new CriarClienteInputDto
         {
-            Nome = "João Silva",
+            Nome = "Joï¿½o Silva",
             Cpf = "12345678901",
             Email = "joao@email.com",
             Senha = "123456",
@@ -296,9 +332,12 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_INVALID), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_INVALID), Is.True);
+        }
     }
 
     [Test]
@@ -318,14 +357,17 @@ public class CriarClienteValidatorTests
         // Act
         var result = _validator.Validate(dto);
 
-        // Assert
-        Assert.That(result.IsValid, Is.False);
-        Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(6));
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
-        Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Errors, Has.Count.GreaterThanOrEqualTo(6));
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.NAME_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.CPF_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.EMAIL_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PASSWORD_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.PHONE_REQUIRED), Is.True);
+            Assert.That(result.Errors.Any(x => x.ErrorMessage == ErrorMessages.BIRTHDATE_REQUIRED), Is.True);
+        }
     }
 }

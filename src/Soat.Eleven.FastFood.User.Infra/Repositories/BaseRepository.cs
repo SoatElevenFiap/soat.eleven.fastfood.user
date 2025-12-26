@@ -9,7 +9,7 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEnti
 {
     protected readonly DataContext _context;
     protected readonly DbSet<TEntity> _dbSet;
-    public BaseRepository(DataContext context)
+    protected BaseRepository(DataContext context)
     {
         _context = context;
         _dbSet = _context.Set<TEntity>();
