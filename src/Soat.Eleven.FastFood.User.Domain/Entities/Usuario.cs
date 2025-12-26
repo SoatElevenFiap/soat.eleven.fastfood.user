@@ -13,7 +13,7 @@ public class Usuario : IEntity
     public DateTime CriadoEm { get; set; }
     public DateTime ModificadoEm { get; set; }
     public StatusUsuario Status { get; set; }
-    public Cliente Cliente { get; set; }
+    public Cliente? Cliente { get; set; }
 
     public void CriarCliente(DateTime dataDeNascimento, string cpf)
     {
