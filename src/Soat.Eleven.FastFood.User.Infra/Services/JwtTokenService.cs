@@ -23,8 +23,7 @@ public class JwtTokenService : IJwtTokenService
 
     private string ReadToken(string typeClaim)
     {
-        var user = _httpContextAccessor.HttpContext?.User;
-        var token = _httpContextAccessor.HttpContext?.Request.Headers.Authorization.First() ?? throw new AuthenticationFailureException("Usuário não autenticado");
+        var token = _httpContextAccessor.HttpContext?.Request.Headers.Authorization.ElementAt(0) ?? throw new AuthenticationFailureException("Usuário não autenticado");
 
         var handler = new JwtSecurityTokenHandler();
         var jsonToken = handler.ReadToken(token.Replace("Bearer ", string.Empty)) ?? throw new AuthenticationFailureException("Usuário não autenticado");

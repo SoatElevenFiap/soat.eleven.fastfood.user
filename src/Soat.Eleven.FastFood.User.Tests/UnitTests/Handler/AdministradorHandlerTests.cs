@@ -6,6 +6,7 @@ using Soat.Eleven.FastFood.User.Application.DTOs.Outputs;
 using Soat.Eleven.FastFood.User.Application.Handlers;
 using Soat.Eleven.FastFood.User.Domain.Entities;
 using Soat.Eleven.FastFood.User.Domain.Enums;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
@@ -41,9 +42,12 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.CriarAdministrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Usuário já existe"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.USER_FOUND));
+        }
     }
 
     [Test]
@@ -63,9 +67,12 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.CriarAdministrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioAdmOutputDto>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioAdmOutputDto>());
+        }
         _usuarioRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Usuario>()), Times.Once);
     }
 
@@ -86,11 +93,14 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.CriarAdministrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.TypeOf<List<string>>());
+        }
         var errors = (List<string>)result.Data;
-        Assert.That(errors.Count, Is.GreaterThan(0));
+        Assert.That(errors, Is.Not.Empty);
     }
 
     [Test]
@@ -104,9 +114,12 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Administrador não encontrado"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.ADMIN_NOT_FOUND));
+        }
     }
 
     [Test]
@@ -161,13 +174,15 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioAdmOutputDto>());
-
-        Assert.That(administrador.Nome, Is.EqualTo(input.Nome));
-        Assert.That(administrador.Email, Is.EqualTo(input.Email));
-        Assert.That(administrador.Telefone, Is.EqualTo(input.Telefone));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioAdmOutputDto>());
+            Assert.That(administrador.Nome, Is.EqualTo(input.Nome));
+            Assert.That(administrador.Email, Is.EqualTo(input.Email));
+            Assert.That(administrador.Telefone, Is.EqualTo(input.Telefone));
+        }
 
         _usuarioRepositoryMock.Verify(x => x.Update(It.IsAny<Usuario>()), Times.Once);
     }
@@ -191,9 +206,12 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Administrador não encontrado"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo(ErrorMessages.ADMIN_NOT_FOUND));
+        }
     }
 
     [Test]
@@ -225,10 +243,13 @@ public class AdministradorHandlerTests
         // Act
         var result = await _handler.AtualizarAdminstrador(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.TypeOf<List<string>>());
+        }
         var errors = (List<string>)result.Data;
-        Assert.That(errors.Count, Is.GreaterThan(0));
+        Assert.That(errors, Is.Not.Empty);
     }
 }

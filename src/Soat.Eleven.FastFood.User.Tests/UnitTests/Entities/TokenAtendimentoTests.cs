@@ -12,8 +12,11 @@ public class TokenAtendimentoTests
         var token = new TokenAtendimento();
 
         // Assert
-        Assert.That(token, Is.Not.Null);
-        Assert.That(token, Is.InstanceOf<IEntity>());
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token, Is.Not.Null);
+            Assert.That(token, Is.InstanceOf<IEntity>());
+        }
     }
 
     [Test]
@@ -36,12 +39,15 @@ public class TokenAtendimentoTests
             Cpf = cpf
         };
 
-        // Assert
-        Assert.That(token.Id, Is.EqualTo(id));
-        Assert.That(token.ClienteId, Is.EqualTo(clienteId));
-        Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
-        Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
-        Assert.That(token.Cpf, Is.EqualTo(cpf));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(token.Id, Is.EqualTo(id));
+            Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+            Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
+            Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
+            Assert.That(token.Cpf, Is.EqualTo(cpf));
+        }
     }
 
     [Test]
@@ -56,11 +62,14 @@ public class TokenAtendimentoTests
             Cliente = null
         };
 
-        // Assert
-        Assert.That(token.Id, Is.EqualTo(Guid.Empty));
-        Assert.That(token.ClienteId, Is.Null);
-        Assert.That(token.Cpf, Is.Null);
-        Assert.That(token.Cliente, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(token.Id, Is.EqualTo(Guid.Empty));
+            Assert.That(token.ClienteId, Is.Null);
+            Assert.That(token.Cpf, Is.Null);
+            Assert.That(token.Cliente, Is.Null);
+        }
     }
 
     [Test]
@@ -86,8 +95,11 @@ public class TokenAtendimentoTests
         };
 
         // Assert
-        Assert.That(token.ClienteId, Is.Null);
-        Assert.That(token.ClienteId.HasValue, Is.False);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token.ClienteId, Is.Null);
+            Assert.That(token.ClienteId.HasValue, Is.False);
+        }
     }
 
     [Test]
@@ -103,9 +115,12 @@ public class TokenAtendimentoTests
         };
 
         // Assert
-        Assert.That(token.ClienteId, Is.EqualTo(clienteId));
-        Assert.That(token.ClienteId.HasValue, Is.True);
-        Assert.That(token.ClienteId.Value, Is.EqualTo(clienteId));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+            Assert.That(token.ClienteId.HasValue, Is.True);
+            Assert.That(token.ClienteId.Value, Is.EqualTo(clienteId));
+        }
     }
 
     [Test]
@@ -118,9 +133,12 @@ public class TokenAtendimentoTests
         };
 
         // Assert
-        Assert.That(token.ClienteId, Is.EqualTo(Guid.Empty));
-        Assert.That(token.ClienteId.HasValue, Is.True);
-        Assert.That(token.ClienteId.Value, Is.EqualTo(Guid.Empty));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token.ClienteId, Is.EqualTo(Guid.Empty));
+            Assert.That(token.ClienteId.HasValue, Is.True);
+            Assert.That(token.ClienteId.Value, Is.EqualTo(Guid.Empty));
+        }
     }
 
     [Test]
@@ -149,8 +167,11 @@ public class TokenAtendimentoTests
         };
 
         // Assert
-        Assert.That(token.Cpf, Is.EqualTo(cpf));
-        Assert.That(token.Cpf.Length, Is.EqualTo(11));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token.Cpf, Is.EqualTo(cpf));
+            Assert.That(token.Cpf.Length, Is.EqualTo(11));
+        }
     }
 
     [Test]
@@ -202,10 +223,13 @@ public class TokenAtendimentoTests
         };
 
         // Assert
-        Assert.That(token.Cliente, Is.EqualTo(cliente));
-        Assert.That(token.Cliente.Id, Is.EqualTo(clienteId));
-        Assert.That(token.Cliente.Cpf, Is.EqualTo("12345678901"));
-        Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token.Cliente, Is.EqualTo(cliente));
+            Assert.That(token.Cliente.Id, Is.EqualTo(clienteId));
+            Assert.That(token.Cliente.Cpf, Is.EqualTo("12345678901"));
+            Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+        }
     }
 
     [Test]
@@ -222,10 +246,13 @@ public class TokenAtendimentoTests
             ModificadoEm = modificadoEm
         };
 
-        // Assert
-        Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
-        Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
-        Assert.That(token.ModificadoEm, Is.GreaterThan(token.CriadoEm));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
+            Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
+            Assert.That(token.ModificadoEm, Is.GreaterThan(token.CriadoEm));
+        }
     }
 
     [Test]
@@ -235,10 +262,13 @@ public class TokenAtendimentoTests
         var token = new TokenAtendimento();
 
         // Act & Assert
-        Assert.That(token, Is.AssignableTo<IEntity>());
-        Assert.That(token.Id, Is.TypeOf<Guid>());
-        Assert.That(token.CriadoEm, Is.TypeOf<DateTime>());
-        Assert.That(token.ModificadoEm, Is.TypeOf<DateTime>());
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(token, Is.AssignableTo<IEntity>());
+            Assert.That(token.Id, Is.TypeOf<Guid>());
+            Assert.That(token.CriadoEm, Is.TypeOf<DateTime>());
+            Assert.That(token.ModificadoEm, Is.TypeOf<DateTime>());
+        }
     }
 
     [Test]
@@ -268,15 +298,18 @@ public class TokenAtendimentoTests
             Cliente = cliente
         };
 
-        // Assert
-        Assert.That(token.Id, Is.EqualTo(id));
-        Assert.That(token.ClienteId, Is.EqualTo(clienteId));
-        Assert.That(token.Cpf, Is.EqualTo(cpf));
-        Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
-        Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
-        Assert.That(token.Cliente, Is.EqualTo(cliente));
-        Assert.That(token.Cliente.Id, Is.EqualTo(token.ClienteId));
-        Assert.That(token.Cliente.Cpf, Is.EqualTo(token.Cpf));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(token.Id, Is.EqualTo(id));
+            Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+            Assert.That(token.Cpf, Is.EqualTo(cpf));
+            Assert.That(token.CriadoEm, Is.EqualTo(criadoEm));
+            Assert.That(token.ModificadoEm, Is.EqualTo(modificadoEm));
+            Assert.That(token.Cliente, Is.EqualTo(cliente));
+            Assert.That(token.Cliente.Id, Is.EqualTo(token.ClienteId));
+            Assert.That(token.Cliente.Cpf, Is.EqualTo(token.Cpf));
+        }
     }
 
     [Test]
@@ -299,11 +332,14 @@ public class TokenAtendimentoTests
             Cliente = cliente
         };
 
-        // Assert - Should allow inconsistency as it's not enforced at entity level
-        Assert.That(token.ClienteId, Is.EqualTo(clienteId));
-        Assert.That(token.Cpf, Is.EqualTo(tokenCpf));
-        Assert.That(token.Cliente.Cpf, Is.EqualTo("22222222222"));
-        Assert.That(token.Cpf, Is.Not.EqualTo(token.Cliente.Cpf));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert - Should allow inconsistency as it's not enforced at entity level
+            Assert.That(token.ClienteId, Is.EqualTo(clienteId));
+            Assert.That(token.Cpf, Is.EqualTo(tokenCpf));
+            Assert.That(token.Cliente.Cpf, Is.EqualTo("22222222222"));
+            Assert.That(token.Cpf, Is.Not.EqualTo(token.Cliente.Cpf));
+        }
     }
 
     [Test]
@@ -321,9 +357,12 @@ public class TokenAtendimentoTests
             Cliente = null
         };
 
-        // Assert
-        Assert.That(token.ClienteId, Is.Null);
-        Assert.That(token.Cpf, Is.EqualTo(cpf));
-        Assert.That(token.Cliente, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(token.ClienteId, Is.Null);
+            Assert.That(token.Cpf, Is.EqualTo(cpf));
+            Assert.That(token.Cliente, Is.Null);
+        }
     }
 }

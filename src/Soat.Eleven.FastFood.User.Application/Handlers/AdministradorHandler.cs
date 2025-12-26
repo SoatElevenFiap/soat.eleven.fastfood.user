@@ -3,6 +3,7 @@ using Soat.Eleven.FastFood.User.Application.DTOs.Outputs;
 using Soat.Eleven.FastFood.User.Application.Interfaces.Handlers;
 using Soat.Eleven.FastFood.User.Application.Validators;
 using Soat.Eleven.FastFood.User.Domain.Entities;
+using Soat.Eleven.FastFood.User.Domain.ErrorValidators;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Repositories;
 using Soat.Eleven.FastFood.User.Domain.Interfaces.Services;
 
@@ -26,12 +27,12 @@ public class AdministradorHandler : BaseHandler, IAdministradorHandler
         var administrador = await usuarioRepository.GetByIdAsync(administradorId);
 
         if (administrador is null)
-            return SendError("Administrador não encontrado");
+            return SendError(ErrorMessages.ADMIN_NOT_FOUND);
 
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            AddError("Usuário já existe");
+            AddError(ErrorMessages.USER_FOUND);
 
         if (Validate(new AtualizaAdmValidator(), input))
             return SendError();
@@ -51,7 +52,7 @@ public class AdministradorHandler : BaseHandler, IAdministradorHandler
         var existeEmail = await usuarioRepository.ExistEmail(input.Email);
 
         if (existeEmail)
-            return SendError("Usuário já existe");
+            return SendError(ErrorMessages.USER_FOUND);
 
         if (Validate(new CriarAdmValidator(), input))
             return SendError();

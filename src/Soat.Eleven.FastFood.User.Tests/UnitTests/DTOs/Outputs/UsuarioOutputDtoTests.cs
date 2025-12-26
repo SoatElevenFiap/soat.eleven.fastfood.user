@@ -42,13 +42,16 @@ public class UsuarioOutputDtoTests
         };
 
         // Assert
-        Assert.That(dto.Id, Is.EqualTo(id));
-        Assert.That(dto.ClientId, Is.EqualTo(clientId));
-        Assert.That(dto.Nome, Is.EqualTo(nome));
-        Assert.That(dto.Email, Is.EqualTo(email));
-        Assert.That(dto.Telefone, Is.EqualTo(telefone));
-        Assert.That(dto.Cpf, Is.EqualTo(cpf));
-        Assert.That(dto.DataDeNascimento, Is.EqualTo(dataDeNascimento));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto.Id, Is.EqualTo(id));
+            Assert.That(dto.ClientId, Is.EqualTo(clientId));
+            Assert.That(dto.Nome, Is.EqualTo(nome));
+            Assert.That(dto.Email, Is.EqualTo(email));
+            Assert.That(dto.Telefone, Is.EqualTo(telefone));
+            Assert.That(dto.Cpf, Is.EqualTo(cpf));
+            Assert.That(dto.DataDeNascimento, Is.EqualTo(dataDeNascimento));
+        }
     }
 
     [Test]
@@ -75,13 +78,16 @@ public class UsuarioOutputDtoTests
         var dto = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(usuarioId));
-        Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
-        Assert.That(dto.Email, Is.EqualTo(usuario.Email));
-        Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
-        Assert.That(dto.Cpf, Is.EqualTo(usuario.Cliente.Cpf));
-        Assert.That(dto.DataDeNascimento, Is.EqualTo(usuario.Cliente.DataDeNascimento));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(usuarioId));
+            Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
+            Assert.That(dto.Email, Is.EqualTo(usuario.Email));
+            Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+            Assert.That(dto.Cpf, Is.EqualTo(usuario.Cliente.Cpf));
+            Assert.That(dto.DataDeNascimento, Is.EqualTo(usuario.Cliente.DataDeNascimento));
+        }
     }
 
     [Test]
@@ -103,13 +109,16 @@ public class UsuarioOutputDtoTests
         var dto = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(usuarioId));
-        Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
-        Assert.That(dto.Email, Is.EqualTo(usuario.Email));
-        Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
-        Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
-        Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(usuarioId));
+            Assert.That(dto.Nome, Is.EqualTo(usuario.Nome));
+            Assert.That(dto.Email, Is.EqualTo(usuario.Email));
+            Assert.That(dto.Telefone, Is.EqualTo(usuario.Telefone));
+            Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
+            Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        }
     }
 
     [Test]
@@ -134,8 +143,11 @@ public class UsuarioOutputDtoTests
         var dto = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
+        }
     }
 
     [Test]
@@ -161,13 +173,16 @@ public class UsuarioOutputDtoTests
         var dto = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Id, Is.EqualTo(Guid.Empty));
-        Assert.That(dto.Nome, Is.EqualTo(""));
-        Assert.That(dto.Email, Is.EqualTo(""));
-        Assert.That(dto.Telefone, Is.EqualTo(""));
-        Assert.That(dto.Cpf, Is.EqualTo(""));
-        Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Id, Is.EqualTo(Guid.Empty));
+            Assert.That(dto.Nome, Is.EqualTo(""));
+            Assert.That(dto.Email, Is.EqualTo(""));
+            Assert.That(dto.Telefone, Is.EqualTo(""));
+            Assert.That(dto.Cpf, Is.EqualTo(""));
+            Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        }
     }
 
     [Test]
@@ -185,12 +200,15 @@ public class UsuarioOutputDtoTests
         var dto = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto, Is.Not.Null);
-        Assert.That(dto.Nome, Is.Null);
-        Assert.That(dto.Email, Is.Null);
-        Assert.That(dto.Telefone, Is.Null);
-        Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
-        Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto, Is.Not.Null);
+            Assert.That(dto.Nome, Is.Null);
+            Assert.That(dto.Email, Is.Null);
+            Assert.That(dto.Telefone, Is.Null);
+            Assert.That(dto.Cpf, Is.EqualTo(string.Empty));
+            Assert.That(dto.DataDeNascimento, Is.EqualTo(DateTime.MinValue));
+        }
     }
 
     [Test]
@@ -217,14 +235,17 @@ public class UsuarioOutputDtoTests
         var dto2 = (UsuarioOutputDto)usuario;
 
         // Assert
-        Assert.That(dto1, Is.Not.Null);
-        Assert.That(dto2, Is.Not.Null);
-        Assert.That(dto1, Is.Not.SameAs(dto2));
-        Assert.That(dto1.Id, Is.EqualTo(dto2.Id));
-        Assert.That(dto1.Nome, Is.EqualTo(dto2.Nome));
-        Assert.That(dto1.Email, Is.EqualTo(dto2.Email));
-        Assert.That(dto1.Telefone, Is.EqualTo(dto2.Telefone));
-        Assert.That(dto1.Cpf, Is.EqualTo(dto2.Cpf));
-        Assert.That(dto1.DataDeNascimento, Is.EqualTo(dto2.DataDeNascimento));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(dto1, Is.Not.Null);
+            Assert.That(dto2, Is.Not.Null);
+            Assert.That(dto1, Is.Not.SameAs(dto2));
+            Assert.That(dto1.Id, Is.EqualTo(dto2.Id));
+            Assert.That(dto1.Nome, Is.EqualTo(dto2.Nome));
+            Assert.That(dto1.Email, Is.EqualTo(dto2.Email));
+            Assert.That(dto1.Telefone, Is.EqualTo(dto2.Telefone));
+            Assert.That(dto1.Cpf, Is.EqualTo(dto2.Cpf));
+            Assert.That(dto1.DataDeNascimento, Is.EqualTo(dto2.DataDeNascimento));
+        }
     }
 }

@@ -54,9 +54,74 @@ public class UsuarioHandlerTests
         // Act
         var result = await _handler.GetUsuario();
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.TypeOf<UsuarioOutputDto>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioOutputDto>());
+        }
+    }
+
+    [Test]
+    public async Task GetUsuario_WhenUsuarioIsCliente_ShouldReturnUsuarioClienteOutputDto()
+    {
+        // Arrange
+        var clienteId = Guid.NewGuid();
+        var usuario = new Usuario
+        {
+            Id = Guid.NewGuid(),
+            Nome = "João Silva",
+            Email = "joao@email.com",
+            Telefone = "11999999999",
+            Perfil = PerfilUsuario.Cliente,
+            Status = StatusUsuario.Ativo,
+            Cliente = new Cliente
+            {
+                Id = clienteId,
+                Cpf = "12345678901",
+                DataDeNascimento = DateTime.Now.AddYears(-30)
+            }
+        };
+
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuario.Id);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(usuario.Id)).ReturnsAsync(usuario);
+
+        // Act
+        var result = await _handler.GetUsuario();
+
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.TypeOf<UsuarioClienteOutputDto>());
+        }
+
+        var output = (UsuarioClienteOutputDto)result.Data;
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(output.ClientId, Is.EqualTo(clienteId));
+            Assert.That(output.Cpf, Is.EqualTo("12345678901"));
+            Assert.That(output.Nome, Is.EqualTo("João Silva"));
+        }
+    }
+
+    [Test]
+    public async Task GetUsuario_WhenUsuarioNotFound_ShouldReturnError()
+    {
+        // Arrange
+        var usuarioId = Guid.NewGuid();
+        _jwtTokenServiceMock.Setup(x => x.GetUsuarioId()).Returns(usuarioId);
+        _usuarioRepositoryMock.Setup(x => x.GetByIdAsync(usuarioId)).ReturnsAsync(null as Usuario);
+
+        // Act
+        var result = await _handler.GetUsuario();
+
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo("Usuário não autenticado."));
+        }
     }
 
     [Test]
@@ -123,9 +188,12 @@ public class UsuarioHandlerTests
         // Act
         var result = await _handler.AtualizarSenha(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Usuário não autenticado."));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo("Usuário não autenticado."));
+        }
     }
 
     [Test]
@@ -153,9 +221,12 @@ public class UsuarioHandlerTests
         // Act
         var result = await _handler.AtualizarSenha(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.EqualTo("Senha atual incorreta."));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.EqualTo("Senha atual incorreta."));
+        }
     }
 
     [Test]
@@ -184,11 +255,13 @@ public class UsuarioHandlerTests
         // Act
         var result = await _handler.AtualizarSenha(input);
 
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data, Is.True);
-
-        Assert.That(usuario.Senha, Is.EqualTo("hashNovaSenha"));
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data, Is.True);
+            Assert.That(usuario.Senha, Is.EqualTo("hashNovaSenha"));
+        }
         _usuarioRepositoryMock.Verify(x => x.Update(It.IsAny<Usuario>()), Times.Once);
     }
 
@@ -205,8 +278,11 @@ public class UsuarioHandlerTests
         // Act
         var result = await _handler.AtualizarSenha(input);
 
-        // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.Data, Is.TypeOf<List<string>>());
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.Data, Is.TypeOf<List<string>>());
+        }
     }
 }
