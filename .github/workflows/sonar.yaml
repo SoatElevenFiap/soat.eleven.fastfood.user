@@ -67,4 +67,4 @@ jobs:
             /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage.opencover.xml
 
       - name: End Sonar Analysis
-        run: ./.sonar/scanner/dotnet-sonarscanner end
+        run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
