@@ -2,14 +2,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   labels:
-    app: migrator
-  name: migrator
+    app: users-migrator
+  name: users-migrator
   namespace: fastfood
 spec:
   template:
     metadata:
       labels:
-        app: migrator
+        app: users-migrator
     spec:
       restartPolicy: OnFailure
       imagePullSecrets: 
@@ -32,32 +32,32 @@ spec:
               echo "=== Connection String (mascarada) ==="
               echo "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB;Username=$POSTGRES_USER;Password=[MASKED];SslMode=Require;TrustServerCertificate=true"
               echo "=== Iniciando Migration ==="
-              dotnet ef database update --connection 'Host=$(POSTGRES_HOST);Port=$(POSTGRES_PORT);Database=$(POSTGRES_DB);Username=$(POSTGRES_USER);Password=$(POSTGRES_PASSWORD);SslMode=Require;TrustServerCertificate=true' --project src/Soat.Eleven.FastFood.Infra/Soat.Eleven.FastFood.Adapter.Infra.csproj --startup-project src/Soat.Eleven.FastFood.Api/Soat.Eleven.FastFood.Adapter.WebApi.csproj
+              dotnet ef database update --connection 'Host=$(POSTGRES_HOST);Port=$(POSTGRES_PORT);Database=$(POSTGRES_DB);Username=$(POSTGRES_USER);Password=$(POSTGRES_PASSWORD);SslMode=Require;TrustServerCertificate=true' --project src/Soat.Eleven.FastFood.User.Infra/Soat.Eleven.FastFood.User.Infra.csproj --startup-project src/Soat.Eleven.FastFood.User.Api/Soat.Eleven.FastFood.User.Api.csproj
           env:
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: fastfood-config
+                  name: users-config
                   key: POSTGRES_HOST
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
-                  name: fastfood-config
+                  name: users-config
                   key: POSTGRES_DB
             - name: POSTGRES_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: fastfood-config
+                  name: users-config
                   key: POSTGRES_PORT
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: users-db-credentials
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: users-db-credentials
                   key: POSTGRES_PASSWORD
             - name: ConnectionStrings__PostgresConnectionString
               value: "Host=$(POSTGRES_HOST);Port=$(POSTGRES_PORT);Database=$(POSTGRES_DB);Username=$(POSTGRES_USER);Password=$(POSTGRES_PASSWORD);SslMode=Require;TrustServerCertificate=true"

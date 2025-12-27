@@ -2,8 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: db
-  name: db-data
+    app: users-db
+  name: users-db-data
   namespace: fastfood
 spec:
   storageClassName: local-storage 

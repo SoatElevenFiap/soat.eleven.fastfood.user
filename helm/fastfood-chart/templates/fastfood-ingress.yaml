@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fastfood-ingress
+  name: users-ingress
   namespace: fastfood
   annotations:
     appgw.ingress.kubernetes.io/backend-path-prefix: "/"
@@ -16,7 +16,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-service
+            name: app-service-users
             port:
               number: 80
 {{- end }}

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fastfood-ingress
+  name: user-ingress
   namespace: fastfood
 spec:
   ingressClassName: nginx 

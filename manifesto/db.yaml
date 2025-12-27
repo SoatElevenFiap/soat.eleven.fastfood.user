@@ -2,23 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: db
-  name: db
+    app: users-db
+  name: users-db
   namespace: fastfood
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: db
+      app: users-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: db
+        app: users-db
     spec:
       containers:
-        - name: db
+        - name: users-db
           image: localhost/fastfood-db:latest
           env:
             - name: POSTGRES_DB
