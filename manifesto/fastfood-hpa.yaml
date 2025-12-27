@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: fastfood-app-hpa
+  name: user-app-hpa
   namespace: fastfood 
 spec:
   scaleTargetRef:

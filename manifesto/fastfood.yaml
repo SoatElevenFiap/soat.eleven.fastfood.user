@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: app
-  name: app
+    app: user
+  name: user
   namespace: fastfood
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: user
   template:
     metadata:
       labels:
-        app: app
+        app: user
     spec:
       containers:
-        - name: app
+        - name: user
           image: localhost/fastfood-app:latest
           resources:
             requests:
