@@ -1,7 +1,9 @@
 # Variáveis da Imagem
 image:
-  repository: acrfastfoodpostech.azurecr.io/fastfood/app:v1 
-  migratorRepository: acrfastfoodpostech.azurecr.io/fastfood/migrator:v2
+  repository: acrfastfoodpostech.azurecr.io/fastfood/user
+  tag: latest
+  migratorRepository: acrfastfoodpostech.azurecr.io/fastfood/migrator-user
+  migratorTag: latest
   pullPolicy: IfNotPresent
 
 # Namespace customizável
@@ -25,8 +27,13 @@ hpa:
 # Variáveis do Azure PostgreSQL
 postgres:
   host: "" # Será definido via --set no Helm
-  db: "fastfood" # Nome do DB
+  db: "pedidos" # Nome do DB
   port: "5432"
+
+# Configurações do Serviço de Pagamento
+pagamento:
+  clientId: "" # Será definido via --set no Helm
+  baseUrl: "http://app-service-pagamento.fastfood" # URL do serviço de pagamento
 
 # Configurações do Ingress para AGIC
 ingress:
