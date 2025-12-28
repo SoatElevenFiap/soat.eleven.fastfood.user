@@ -4,7 +4,7 @@ metadata:
   labels:
     app: users-app
   name: users-app
-  namespace: fastfood
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -50,7 +50,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: users-config
-                  key: POSTGRES_DB
+                  key: POSTGRES_DB_USERS
             - name: POSTGRES_PORT
               valueFrom:
                 configMapKeyRef:
