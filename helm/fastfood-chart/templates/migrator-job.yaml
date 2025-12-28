@@ -64,5 +64,5 @@ spec:
               echo "=== Connection String (mascarada) ==="
               echo "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=[MASKED];SslMode=Require;TrustServerCertificate=true"
               echo "=== Iniciando Migration ==="
-              dotnet ef database update --connection "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;SslMode=Require;TrustServerCertificate=true" --project src/Soat.Eleven.User.Infra/Soat.Eleven.User.Infra.csproj --startup-project src/Soat.Eleven.User.Api/Soat.Eleven.User.Api.csproj             
+              dotnet ef database update --connection "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;SslMode=Require;TrustServerCertificate=true" --project src/Soat.Eleven.FastFood.User.Infra/Soat.Eleven.FastFood.User.Infra.csproj --startup-project src/Soat.Eleven.FastFood.User.Api/Soat.Eleven.FastFood.User.Api.csproj             
             
