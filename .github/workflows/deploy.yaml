@@ -3,7 +3,7 @@ name: CD - Deploy FastFood to AKS
 on:
   push:
     branches:
-      - master
+      - test-deploy
   workflow_dispatch:
 
 env:
@@ -83,6 +83,14 @@ jobs:
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
 
+      - name: Create DB Credentials Secret
+        run: |
+          kubectl create secret generic db-credentials \
+            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            -n $NAMESPACE \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       # 7. Executar Migration Job
       - name: Run Database Migration
         env:
@@ -102,7 +110,7 @@ jobs:
             --namespace $NAMESPACE \
             --show-only templates/migrator-job.yaml \
             --show-only templates/config-map.yaml \
-            --show-only templates/secret.yaml | kubectl apply -f -
+             | kubectl apply -f -
           
           echo "⏳ Aguardando migração finalizar..."
           kubectl wait --for=condition=complete job -l app=users-migrator -n $NAMESPACE --timeout=300s
