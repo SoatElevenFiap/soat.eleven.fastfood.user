@@ -114,7 +114,9 @@ jobs:
         run: |
           echo "🧹 Removendo releases e recursos órfãos anteriores..."
           helm uninstall users-release -n $NAMESPACE --ignore-not-found || true
+          helm uninstall fastfood-release -n $NAMESPACE --ignore-not-found || true
           kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
+          kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
           
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
           kubectl create secret docker-registry acr-secret \
