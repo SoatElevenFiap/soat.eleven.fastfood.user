@@ -83,14 +83,6 @@ jobs:
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
 
-      - name: Create DB Credentials Secret
-        run: |
-          kubectl create secret generic db-credentials \
-            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
-            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-            -n $NAMESPACE \
-            --dry-run=client -o yaml | kubectl apply -f -
-
       # 7. Executar Migration Job
       - name: Run Database Migration
         env:
@@ -138,6 +130,7 @@ jobs:
           helm upgrade --install $RELEASE_NAME $CHART_PATH \
             --namespace $NAMESPACE \
             --create-namespace \
+            --timeout 10m \
             --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
             --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
             --set postgres.port="5432" \
@@ -145,4 +138,5 @@ jobs:
             --set credentials.password="${{ secrets.POSTGRES_PASSWORD }}" \
             --set image.repository=$REGISTRY/$APP_IMAGE_NAME \
             --set image.tag=${{ github.sha }} \
-            --atomic
+            --atomic \
+            --wait
