@@ -1,8 +1,8 @@
 # Variáveis da Imagem
 image:
-  repository: acrfastfoodpostech.azurecr.io/fastfood/user
+  repository: acrfastfooddhyogo2025.azurecr.io/fastfood/user
   tag: latest
-  migratorRepository: acrfastfoodpostech.azurecr.io/fastfood/migrator-user
+  migratorRepository: acrfastfooddhyogo2025.azurecr.io/fastfood/migrator-user
   migratorTag: latest
   pullPolicy: IfNotPresent
 
