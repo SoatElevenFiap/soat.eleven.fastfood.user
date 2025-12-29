@@ -50,8 +50,8 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("Cliente", policy => policy.RequireRole(RolesAuthorization.Cliente))
     .AddPolicy("Administrador", policy => policy.RequireRole(RolesAuthorization.Administrador))
-    .AddPolicy("ClienteTotem", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem]))
-    .AddPolicy("Commom", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.Administrador]));
+    .AddPolicy("ClienteTotem", policy => policy.RequireRole(RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem))
+    .AddPolicy("Commom", policy => policy.RequireRole(RolesAuthorization.Cliente, RolesAuthorization.Administrador));
 
 // Add Health Checks
 builder.Services.AddHealthChecks()
@@ -79,4 +79,4 @@ app.MapHealthChecks("/health");
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
