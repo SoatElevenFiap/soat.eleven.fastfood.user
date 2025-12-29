@@ -1,15 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: users-migrator
+  name: users-migrator-{{ now | date "20060102-150405" }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: users-migrator
+    release: {{ .Release.Name }}
 spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 3
   template:
     metadata:
       labels:
         app: users-migrator
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: OnFailure
       imagePullSecrets: 
