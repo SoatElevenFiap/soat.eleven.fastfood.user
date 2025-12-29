@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(option =>
         option.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            // Agora busca a chave do sistema de configuração (que inclui o Key Vault)
+            // Agora busca a chave do sistema de configuraï¿½ï¿½o (que inclui o Key Vault)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
             ValidateIssuer = false,
             ValidateAudience = false
@@ -52,6 +52,10 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("Administrador", policy => policy.RequireRole(RolesAuthorization.Administrador))
     .AddPolicy("ClienteTotem", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem]))
     .AddPolicy("Commom", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.Administrador]));
+
+// Add Health Checks
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
 
 var app = builder.Build();
 
@@ -69,6 +73,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Map Health Check endpoints
+app.MapHealthChecks("/health");
 
 app.MapControllers();
 
