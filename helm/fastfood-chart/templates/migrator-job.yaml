@@ -45,12 +45,12 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: db-credentials-users
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: db-credentials-users
                   key: POSTGRES_PASSWORD
           command:
             - sh

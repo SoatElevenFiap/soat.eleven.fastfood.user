@@ -3,11 +3,11 @@ name: CD - Deploy FastFood to AKS
 on:
   push:
     branches:
-      - master
+      - cd/teste
   workflow_dispatch:
 
 env:
-  REGISTRY: acrfastfooddhyogo2025.azurecr.io
+  REGISTRY: acrfastfoodpostech.azurecr.io
   APP_IMAGE_NAME: fastfood/user
   MIGRATOR_IMAGE_NAME: fastfood/migrator-user
   CHART_PATH: ./helm/fastfood-chart
@@ -31,12 +31,12 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID_DHYOGO }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID_DHYOGO }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_DHYOGO }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID_KAUAN }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_KAUAN }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_KAUAN }}
       # 2. Login no ACR
       - name: Azure Container Registry Login
-        run: az acr login --name acrfastfooddhyogo2025
+        run: az acr login --name acrfastfoodpostech
 
       # 3. Build e Push das imagens (Versionamento SHA + Latest)
       - name: Build and push Docker images
@@ -74,12 +74,13 @@ jobs:
 
       - name: Create Namespace
         run: kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Create ACR Secret
         run: |
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
-            --docker-username=$(az acr credential show --name acrfastfooddhyogo2025 --query "username" -o tsv) \
-            --docker-password=$(az acr credential show --name acrfastfooddhyogo2025 --query "passwords[0].value" -o tsv) \
+            --docker-username=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "username" -o tsv) \
+            --docker-password=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "passwords[0].value" -o tsv) \
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
 
@@ -95,7 +96,7 @@ jobs:
           helm template migrator-job $CHART_PATH \
             --set image.migratorRepository=$REGISTRY/$MIGRATOR_IMAGE_NAME \
             --set image.tag=$IMAGE_TAG \
-            --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
+            --set postgres.host="${{ secrets.POSTGRES_HOST_KAUAN }}" \
             --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
             --set credentials.user="${{ secrets.POSTGRES_USER }}" \
             --set credentials.password="${{ secrets.POSTGRES_PASSWORD }}" \
@@ -105,7 +106,7 @@ jobs:
              | kubectl apply -f -
           
           echo "⏳ Aguardando migração finalizar..."
-          kubectl wait --for=condition=complete job -l app=users-migrator -n $NAMESPACE --timeout=300s
+          kubectl wait --for=condition=complete job/users-migrator -n $NAMESPACE --timeout=300s
           
       # 8. Deploy da Aplicação (Com rollback automático)
       - name: Deploy Application via Helm
@@ -116,13 +117,14 @@ jobs:
           helm uninstall users-release -n $NAMESPACE --ignore-not-found || true
           helm uninstall fastfood-release -n $NAMESPACE --ignore-not-found || true
           kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
-          kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
+          kubectl delete secret db-credentials-users -n $NAMESPACE --ignore-not-found=true
+
           
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
-            --docker-username=$(az acr credential show --name acrfastfooddhyogo2025 --query "username" -o tsv) \
-            --docker-password=$(az acr credential show --name acrfastfooddhyogo2025 --query "passwords[0].value" -o tsv) \
+            --docker-username=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "username" -o tsv) \
+            --docker-password=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "passwords[0].value" -o tsv) \
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
           
@@ -131,7 +133,7 @@ jobs:
             --namespace $NAMESPACE \
             --create-namespace \
             --timeout 10m \
-            --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
+            --set postgres.host="${{ secrets.POSTGRES_HOST_KAUAN }}" \
             --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
             --set postgres.port="5432" \
             --set credentials.user="${{ secrets.POSTGRES_USER }}" \
