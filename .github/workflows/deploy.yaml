@@ -103,6 +103,7 @@ jobs:
             --namespace $NAMESPACE \
             --show-only templates/migrator-job.yaml \
             --show-only templates/config-map.yaml \
+            --show-only templates/secret.yaml \
              | kubectl apply -f -
           
           echo "⏳ Aguardando migração finalizar..."
@@ -118,6 +119,7 @@ jobs:
           helm uninstall fastfood-release -n $NAMESPACE --ignore-not-found || true
           kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
           kubectl delete secret db-credentials-users -n $NAMESPACE --ignore-not-found=true
+
 
           
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
