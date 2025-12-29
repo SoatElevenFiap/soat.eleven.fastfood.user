@@ -53,14 +53,6 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("ClienteTotem", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem]))
     .AddPolicy("Commom", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.Administrador]));
 
-
-builder.Services.AddHealthChecks()
-    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
-
-builder.Services.RegisterServices(builder.Configuration);
-
-builder.Services.AddSwaggerConfiguration();
-
 var app = builder.Build();
 
 app.UseMiddleware<ErrorExceptionHandlingMiddleware>(app.Logger);
@@ -81,8 +73,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapHealthChecks("/health");
 
 app.MapControllers();
 
