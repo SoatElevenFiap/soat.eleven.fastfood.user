@@ -2,10 +2,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: users-config
-  namespace: fastfood 
+  namespace: {{ .Release.Namespace }}
 data:
   POSTGRES_HOST: "{{ .Values.postgres.host }}" # <--- APONTA PARA O AZURE DB
   POSTGRES_DB_USERS: "{{ .Values.postgres.db }}"
   POSTGRES_PORT: "{{ .Values.postgres.port }}"
-  ASPNETCORE_ENVIRONMENT: "Development"
+  ASPNETCORE_ENVIRONMENT: "Production"
   ASPNETCORE_URLS: "http://+:80"
