@@ -120,13 +120,11 @@ jobs:
           kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
           kubectl delete secret db-credentials-users -n $NAMESPACE --ignore-not-found=true
 
-
-          
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
-            --docker-username=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "username" -o tsv) \
-            --docker-password=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "passwords[0].value" -o tsv) \
+            --docker-username=$(az acr credential show --name acrfastfoodpostech --query "username" -o tsv) \
+            --docker-password=$(az acr credential show --name acrfastfoodpostech --query "passwords[0].value" -o tsv) \
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
           
