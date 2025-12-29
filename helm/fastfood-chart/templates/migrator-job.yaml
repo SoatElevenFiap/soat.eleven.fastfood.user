@@ -1,3 +1,4 @@
+{{- if not (lookup "batch/v1" "Job" .Release.Namespace "users-migrator") -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -65,4 +66,4 @@ spec:
               echo "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=[MASKED];SslMode=Require;TrustServerCertificate=true"
               echo "=== Iniciando Migration ==="
               dotnet ef database update --connection "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;SslMode=Require;TrustServerCertificate=true" --project src/Soat.Eleven.FastFood.User.Infra/Soat.Eleven.FastFood.User.Infra.csproj --startup-project src/Soat.Eleven.FastFood.User.Api/Soat.Eleven.FastFood.User.Api.csproj             
-            
+{{- end -}}
