@@ -19,7 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerConfiguration();
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnectionString")));
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterValidators();
@@ -62,7 +62,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwaggerConfiguration();
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseCors(x => x.AllowAnyOrigin()
