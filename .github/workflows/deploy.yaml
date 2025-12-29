@@ -106,21 +106,28 @@ jobs:
           
           echo "⏳ Aguardando migração finalizar..."
           kubectl wait --for=condition=complete job -l app=users-migrator -n $NAMESPACE --timeout=300s
+      
       # 8. Limpar recursos órfãos (se existirem)
-      - name: Clean up orphaned resources
-        run: |
-          echo "🧹 Removendo releases e recursos órfãos anteriores..."
-          helm uninstall $RELEASE_NAME -n $NAMESPACE --ignore-not-found || true
-          kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
-          kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
-          kubectl delete secret db-credentials -n $NAMESPACE --ignore-not-found || true
-          sleep 5
+      # - name: Clean up orphaned resources
+      #   run: |
+      #     echo "🧹 Removendo releases e recursos órfãos anteriores..."
+      #     helm uninstall $RELEASE_NAME -n $NAMESPACE --ignore-not-found || true
+      #     kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
+      #     kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
+      #     kubectl delete secret db-credentials -n $NAMESPACE --ignore-not-found || true
+      #     sleep 5
 
       # 8. Deploy da Aplicação (Com rollback automático)
       - name: Deploy Application via Helm
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |          
+          echo "🧹 Removendo releases e recursos órfãos anteriores..."
+          helm uninstall users-release -n $NAMESPACE --ignore-not-found || true
+          helm uninstall fastfood-release -n $NAMESPACE --ignore-not-found || true
+          kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
+          kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
+        
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
