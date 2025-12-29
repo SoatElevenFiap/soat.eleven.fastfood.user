@@ -134,9 +134,20 @@ jobs:
             --show-only templates/migrator-job.yaml \
             --show-only templates/config-map.yaml \
             --show-only templates/secret.yaml | kubectl apply -f -
+        
+          echo "📋 Verificando status do Job..."
+          kubectl get jobs -n $NAMESPACE
+          kubectl get pods -n $NAMESPACE -l app=users-migrator
           
           echo "⏳ Aguardando migração finalizar..."
-          kubectl wait --for=condition=complete job/users-migrator -n $NAMESPACE --timeout=300s
+          kubectl wait --for=condition=complete job/users-migrator -n $NAMESPACE --timeout=600s || {
+            echo "❌ Migration falhou! Verificando logs..."
+            kubectl logs -n $NAMESPACE -l app=users-migrator --tail=100
+            exit 1
+          }
+          
+          echo "✅ Migration concluída!"
+          kubectl logs -n $NAMESPACE -l app=users-migrator --tail=50
 
       # 8. Limpar recursos órfãos (se existirem)
       - name: Clean up orphaned resources
