@@ -102,10 +102,11 @@ jobs:
             --namespace $NAMESPACE \
             --show-only templates/migrator-job.yaml \
             --show-only templates/config-map.yaml \
+            --show-only templates/secret.yaml \
              | kubectl apply -f -
           
           echo "⏳ Aguardando migração finalizar..."
-          kubectl wait --for=condition=complete job -l app=users-migrator -n $NAMESPACE --timeout=300s
+          kubectl wait --for=condition=complete job -l app=users-migrator -n $NAMESPACE --timeout=600s
       
       # 8. Limpar recursos órfãos (se existirem)
       # - name: Clean up orphaned resources
