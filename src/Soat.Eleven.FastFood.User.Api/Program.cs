@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(option =>
         option.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            // Agora busca a chave do sistema de configura��o (que inclui o Key Vault)
+            // Agora busca a chave do sistema de configuração (que inclui o Key Vault)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
             ValidateIssuer = false,
             ValidateAudience = false
@@ -52,10 +52,6 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("Administrador", policy => policy.RequireRole(RolesAuthorization.Administrador))
     .AddPolicy("ClienteTotem", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem]))
     .AddPolicy("Commom", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.Administrador]));
-
-var app = builder.Build();
-
-app.UseMiddleware<ErrorExceptionHandlingMiddleware>(app.Logger);
 
 var app = builder.Build();
 
