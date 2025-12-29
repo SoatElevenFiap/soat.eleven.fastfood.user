@@ -27,13 +27,13 @@ hpa:
 # Variáveis do Azure PostgreSQL
 postgres:
   host: "" # Será definido via --set no Helm
-  db: "pedidos" # Nome do DB
+  db: "users" # Nome do DB
   port: "5432"
 
 # Configurações do Serviço de Pagamento
 pagamento:
   clientId: "" # Será definido via --set no Helm
-  baseUrl: "http://app-service-pagamento.fastfood" # URL do serviço de pagamento
+  baseUrl: "http://pagamento-service:80" # URL do serviço de pagamento
 
 # Configurações do Ingress para AGIC
 ingress:
