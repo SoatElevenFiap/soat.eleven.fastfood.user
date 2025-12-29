@@ -79,8 +79,8 @@ jobs:
         run: |
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
-            --docker-username=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "username" -o tsv) \
-            --docker-password=$(az acr credential show --name POSTGacrfastfoodpostechRES_HOST_KAUAN --query "passwords[0].value" -o tsv) \
+            --docker-username=$(az acr credential show --name acrfastfoodpostech --query "username" -o tsv) \
+            --docker-password=$(az acr credential show --name acrfastfoodpostech --query "passwords[0].value" -o tsv) \
             --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
 
