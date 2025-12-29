@@ -61,3 +61,4 @@ cuidado ao salvar o arquivo lembra que o bloco de notas precisa estar com acesso
 
 # Comando para desistalar o helm
 helm uninstall fastfood-release --namespace fastfood   
+.
