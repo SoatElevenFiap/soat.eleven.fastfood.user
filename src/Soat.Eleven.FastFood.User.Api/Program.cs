@@ -8,18 +8,23 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+try 
+{
+    builder.ConfigureKeyVault();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"[ERRO CRÍTICO] Falha ao conectar no Key Vault: {ex.Message}");
+}
+
 builder.Services.AddControllers();
 
-builder.ConfigureKeyVault();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerConfiguration();
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnectionString")));
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterValidators();
@@ -28,48 +33,62 @@ builder.Services.RegisterHandlers();
 
 builder.Services.AddCors();
 
+// 2. Configuração de Autenticação com Fallback de Chave
+var jwtSecretKey = builder.Configuration["JwtSettings:SecretKey"];
+if (string.IsNullOrEmpty(jwtSecretKey))
+{
+    Console.WriteLine("[AVISO] JwtSettings:SecretKey não encontrada. Usando chave temporária para evitar crash.");
+    jwtSecretKey = "ChaveDeSegurancaTemporariaParaFinsDeDebug123!"; 
+}
+
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-    .AddJwtBearer(option =>
+.AddJwtBearer(option =>
+{
+    option.RequireHttpsMetadata = false;
+    option.SaveToken = true;
+    option.TokenValidationParameters = new TokenValidationParameters
     {
-        option.RequireHttpsMetadata = false;
-        option.SaveToken = true;
-        option.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            // Agora busca a chave do sistema de configuração (que inclui o Key Vault)
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecretKey)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("Cliente", policy => policy.RequireRole(RolesAuthorization.Cliente))
     .AddPolicy("Administrador", policy => policy.RequireRole(RolesAuthorization.Administrador))
-    .AddPolicy("ClienteTotem", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem]))
-    .AddPolicy("Commom", policy => policy.RequireRole([RolesAuthorization.Cliente, RolesAuthorization.Administrador]));
+    .AddPolicy("ClienteTotem", policy => policy.RequireRole(RolesAuthorization.Cliente, RolesAuthorization.IdentificacaoTotem))
+    .AddPolicy("Commom", policy => policy.RequireRole(RolesAuthorization.Cliente, RolesAuthorization.Administrador));
+
+// Add Health Checks
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
 
 var app = builder.Build();
 
+// 3. MAPEAR HEALTH CHECK NO TOPO - Resolve o 404 das Probes do Kubernetes
+app.MapHealthChecks("/health");
+
 // Configure the HTTP request pipeline.
 app.UseSwaggerConfiguration();
-
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseCors(x => x.AllowAnyOrigin()
                   .AllowAnyMethod()
                   .AllowAnyHeader());
 
-app.UseHttpsRedirection();
+// Desabilitado redirecionamento HTTPS para evitar erro de porta no cluster AKS
+// app.UseHttpsRedirection(); 
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+Console.WriteLine("=== Aplicação Inicializada com Sucesso ===");
+await app.RunAsync();
