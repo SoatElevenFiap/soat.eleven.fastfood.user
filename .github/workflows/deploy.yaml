@@ -12,7 +12,7 @@ env:
   MIGRATOR_IMAGE_NAME: fastfood/migrator-user
   CHART_PATH: ./helm/fastfood-chart
   RELEASE_NAME: users-release
-  AKS_RESOURCE_GROUP: rg-fastfood-dhyogo
+  AKS_RESOURCE_GROUP: rg-fastfood-postech
   AKS_CLUSTER_NAME: aks-fastfood-postech
   NAMESPACE: fastfood
 
