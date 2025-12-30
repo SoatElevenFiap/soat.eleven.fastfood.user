@@ -1,18 +1,18 @@
-name: Deploy FastFood to AKS
+name: CD - Deploy FastFood to AKS
 
 on:
   push:
     branches:
-      - master
+      - outro-deploy
   workflow_dispatch:
 
 env:
   REGISTRY: acrfastfooddhyogo2025.azurecr.io
-  APP_IMAGE_NAME: fastfood/users-app
-  MIGRATOR_IMAGE_NAME: fastfood/migrator-users-app
+  APP_IMAGE_NAME: fastfood/user
+  MIGRATOR_IMAGE_NAME: fastfood/migrator-user
   CHART_PATH: ./helm/fastfood-chart
-  RELEASE_NAME: users-app-release
-  AKS_RESOURCE_GROUP: rg-fastfood-postech
+  RELEASE_NAME: users-release
+  AKS_RESOURCE_GROUP: rg-fastfood-dhyogo
   AKS_CLUSTER_NAME: aks-fastfood-postech
   NAMESPACE: fastfood
 
@@ -74,6 +74,7 @@ jobs:
 
       - name: Create Namespace
         run: kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Create ACR Secret
         run: |
           kubectl create secret docker-registry acr-secret \
@@ -89,77 +90,25 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo "🧹 Limpando jobs anteriores..."
-          kubectl delete job users-migrator -n $NAMESPACE --ignore-not-found=true
-          sleep 3
+          kubectl delete jobs -l app=users-migrator -n $NAMESPACE --ignore-not-found=true
           
-          echo "🚀 Criando ConfigMap..."
-          helm template migrator-job $CHART_PATH \
-            --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
-            --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
-            --set postgres.port="5432" \
-            --namespace $NAMESPACE \
-            --show-only templates/config-map.yaml | kubectl apply -f -
-        
-          echo "🔐 Criando Secret..."
-          helm template migrator-job $CHART_PATH \
-            --set credentials.user="${{ secrets.POSTGRES_USER }}" \
-            --set credentials.password="${{ secrets.POSTGRES_PASSWORD }}" \
-            --namespace $NAMESPACE \
-            --show-only templates/secret.yaml | kubectl apply -f -
-        
-          echo "🚀 Aplicando Job de Migração..."
+          echo "🚀 Renderizando e aplicando Job de Migração..."
           helm template migrator-job $CHART_PATH \
             --set image.migratorRepository=$REGISTRY/$MIGRATOR_IMAGE_NAME \
             --set image.tag=$IMAGE_TAG \
             --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
             --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
-            --set postgres.port="5432" \
             --set credentials.user="${{ secrets.POSTGRES_USER }}" \
             --set credentials.password="${{ secrets.POSTGRES_PASSWORD }}" \
             --namespace $NAMESPACE \
-            --show-only templates/migrator-job.yaml | kubectl apply -f -
-        
-          echo ""
-          echo "📋 Aguardando pod iniciar..."
-          sleep 5
+            --show-only templates/migrator-job.yaml \
+            --show-only templates/config-map.yaml \
+            --show-only templates/secret.yaml \
+             | kubectl apply -f -
           
-          echo "📊 Status do Job:"
-          kubectl get jobs -n $NAMESPACE -l app=users-migrator
+          echo "⏳ Aguardando migração finalizar..."
+          kubectl wait --for=condition=complete job/users-migrator -n $NAMESPACE --timeout=300s
           
-          echo ""
-          echo "📊 Status do Pod:"
-          kubectl get pods -n $NAMESPACE -l app=users-migrator
-          
-          echo ""
-          echo "⏳ Aguardando migração finalizar (timeout: 10 minutos)..."
-          kubectl wait --for=condition=complete job/users-migrator -n $NAMESPACE --timeout=600s || {
-            echo ""
-            echo "❌ ========================================="
-            echo "❌ MIGRATION FALHOU OU DEU TIMEOUT"
-            echo "❌ ========================================="
-            echo ""
-            echo "📊 Status final do Job:"
-            kubectl get jobs -n $NAMESPACE -l app=users-migrator
-            echo ""
-            echo "📊 Status final do Pod:"
-            kubectl get pods -n $NAMESPACE -l app=users-migrator
-            echo ""
-            echo "📋 Logs do Pod:"
-            kubectl logs -n $NAMESPACE -l app=users-migrator --tail=200 --all-containers=true
-            echo ""
-            echo "📋 Describe do Pod:"
-            kubectl describe pod -n $NAMESPACE -l app=users-migrator
-            exit 1
-          }
-          
-          echo ""
-          echo "✅ ========================================="
-          echo "✅ MIGRATION CONCLUÍDA COM SUCESSO!"
-          echo "✅ ========================================="
-          echo ""
-          echo "📋 Logs finais:"
-          kubectl logs -n $NAMESPACE -l app=users-migrator --tail=100
-
       # 8. Deploy da Aplicação (Com rollback automático)
       - name: Deploy Application via Helm
         env:
@@ -169,8 +118,8 @@ jobs:
           helm uninstall users-release -n $NAMESPACE --ignore-not-found || true
           helm uninstall fastfood-release -n $NAMESPACE --ignore-not-found || true
           kubectl delete configmap users-config -n $NAMESPACE --ignore-not-found || true
-          kubectl delete configmap fastfood-config -n $NAMESPACE --ignore-not-found || true
-          
+          kubectl delete secret db-credentials-users -n $NAMESPACE --ignore-not-found=true
+
           echo "🔐 Atualiza/Cria secret do ACR para o K8s puxar a imagem..."
           kubectl create secret docker-registry acr-secret \
             --docker-server=$REGISTRY \
@@ -183,13 +132,13 @@ jobs:
           helm upgrade --install $RELEASE_NAME $CHART_PATH \
             --namespace $NAMESPACE \
             --create-namespace \
+            --timeout 10m \
             --set postgres.host="${{ secrets.POSTGRES_HOST }}" \
             --set postgres.db="${{ secrets.POSTGRES_DB_USERS }}" \
             --set postgres.port="5432" \
             --set credentials.user="${{ secrets.POSTGRES_USER }}" \
             --set credentials.password="${{ secrets.POSTGRES_PASSWORD }}" \
-            --set pagamento.baseUrl="${{ secrets.PAGAMENTO_BASE_URL }}" \
-            --set pagamento.clientId="${{ secrets.PAGAMENTO_CLIENT_ID }}" \
             --set image.repository=$REGISTRY/$APP_IMAGE_NAME \
             --set image.tag=${{ github.sha }} \
-            --atomic
+            --atomic \
+            --wait
