@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.ConfigureKeyVault();
+// builder.ConfigureKeyVault();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,22 +59,22 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
+// Map Health Check endpoints
+app.MapHealthChecks("/health");
+
 // Configure the HTTP request pipeline.
 app.UseSwaggerConfiguration();
 
-app.UseStaticFiles();
+// app.UseHttpsRedirection();
+// app.UseStaticFiles();
 
 app.UseCors(x => x.AllowAnyOrigin()
                   .AllowAnyMethod()
                   .AllowAnyHeader());
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Map Health Check endpoints
-app.MapHealthChecks("/health");
 
 app.MapControllers();
 

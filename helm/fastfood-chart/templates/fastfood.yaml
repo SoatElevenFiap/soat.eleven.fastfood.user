@@ -71,19 +71,3 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 80
-            initialDelaySeconds: 20
-            periodSeconds: 20
-            timeoutSeconds: 15
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 80
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            timeoutSeconds: 8
-            failureThreshold: 3
