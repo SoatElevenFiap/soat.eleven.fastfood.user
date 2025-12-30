@@ -1,4 +1,4 @@
-# {{- if not (lookup "batch/v1" "Job" .Release.Namespace "users-migrator") -}}
+{{- if not (lookup "batch/v1" "Job" .Release.Namespace "users-migrator") -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -6,11 +6,15 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: users-migrator
+    release: {{ .Release.Name }}
 spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 3
   template:
     metadata:
       labels:
         app: users-migrator
+        release: {{ .Release.Name }}
     spec:
       restartPolicy: OnFailure
       imagePullSecrets: 
@@ -42,12 +46,12 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: db-credentials-users
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-credentials
+                  name: db-credentials-users
                   key: POSTGRES_PASSWORD
           command:
             - sh
@@ -62,4 +66,4 @@ spec:
               echo "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=[MASKED];SslMode=Require;TrustServerCertificate=true"
               echo "=== Iniciando Migration ==="
               dotnet ef database update --connection "Host=$POSTGRES_HOST;Port=$POSTGRES_PORT;Database=$POSTGRES_DB_USERS;Username=$POSTGRES_USER;Password=$POSTGRES_PASSWORD;SslMode=Require;TrustServerCertificate=true" --project src/Soat.Eleven.FastFood.User.Infra/Soat.Eleven.FastFood.User.Infra.csproj --startup-project src/Soat.Eleven.FastFood.User.Api/Soat.Eleven.FastFood.User.Api.csproj             
-# {{- end -}}
+{{- end -}}
