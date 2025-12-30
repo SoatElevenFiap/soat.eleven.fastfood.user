@@ -24,7 +24,6 @@
     <Folder Include="IntegrationTests\" />
     <Folder Include="UnitTests\Entities\" />
     <Folder Include="UnitTests\DTOs\" />
-    <Folder Include="UnitTests\Validators\" />
   </ItemGroup>
 
   <ItemGroup>
